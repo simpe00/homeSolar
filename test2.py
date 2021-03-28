@@ -197,12 +197,12 @@ def main():
     print("- AC Phase A     Current  : " + str(I_AC_CurrentA.value) + " A")
     print("- AC Phase B     Current  : " + str(I_AC_CurrentB.value) + " A")
     print("- AC Phase C     Current  : " + str(I_AC_CurrentC.value) + " A")
-    print("- AC Current scale factor : " + str(I_AC_Current_SF) + "")
+    print("- AC Current scale factor : " + str(I_AC_Current_SF.value) + "")
 
     print("- AC Phase A - B   Voltage : " + str(I_AC_VoltageAB.value) + " V")
     print("- AC Phase B - C   Voltage : " + str(I_AC_VoltageBC.value) + " V")
     print("- AC Phase C - A   Voltage : " + str(I_AC_VoltageCA.value) + " V")
-    print("-- AC Voltage scale factor : " + str(I_AC_Voltage_SF) + "")
+    print("-- AC Voltage scale factor : " + str(I_AC_Voltage_SF.value) + "")
 
     modbusClient.close()
     b = datetime.datetime.now()  # start measuring
