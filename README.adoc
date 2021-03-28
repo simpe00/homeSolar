@@ -1,0 +1,63 @@
+:toc: 
+
+= Set up a docker Home Assistant with Modbus to SolarEdge
+
+== Link collection
+
+https://www.home-assistant.io/installation/raspberrypi[Home Assistant on Rpi with docker]
+
+https://github.com/binsentsu/home-assistant-solaredge-modbus[modbus rpi - home assistant]
+
+https://github.com/erikarenhill/solaredge-modbus-hass[Modbus SolarEdge for homeassi] from https://community.home-assistant.io/t/custom-component-solaredge-modbus-tcp/165625[Forum]
+
+https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/[ModBus Register für RESU 10h] with https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/?pageNo=8[overview - jpeg]
+
+== commands
+
+
+[source, bash]
+----
+docker run --init -d \
+  --name homeassistant \
+  --restart=unless-stopped \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v /srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi:/config \
+  --network=pub_net \
+  --ip="192.168.178.4" \
+  homeassistant/raspberrypi4-homeassistant:stable
+----
+
+.give permission for rsync
+[source, bash]
+----
+chmod -R 777 ./homeassi/
+[source, bash]
+----
+
+. sync the components
+[source, bash]
+----
+rsync -r /workspaces/HomeAssiWithSolar/home-assistant-solaredge-modbus/custom_components pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/
+
+rsync -r /workspaces/HomeAssiWithSolar/solaredge-modbus-hass/custom_components pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/
+----
+
+.get config file from Rpi
+[source, bash]
+----
+rsync -r pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/configuration.yaml /workspaces/HomeAssiWithSolar/configuration.yaml
+----
+
+.set config file from Rpi
+[source, bash]
+----
+rsync -r /workspaces/HomeAssiWithSolar/configuration.yaml pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/configuration.yaml
+----
+
+
+
+=== python
+
+https://pypi.org/project/pyModbusTCP/[Python lib for Modbus]
+
+https://d1c96hlcey6qkb.cloudfront.net/de1543db-d336-4a89-9a35-dfb08ac7a6c6/8382056182344db2a59e2460d1c50ba8?response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27SunSpec%2520Implementation%2520Technical%2520Note%2520-%2520Version%25202.2.20210304140202457.pdf&response-content-type=application%2Fpdf&Expires=1616976000&Signature=EIHYYvHtAvQGOdSbshbYMiPL4R0SEPVzhstsEDguhg1wdkHX5KS-cCiwwN2yVM22p4cFxBGHH30fw-j6-j2qFGstSsho4xHPML5BiJ-U1D~X46BWZtGvXJ5~6zYe6mL6FbiUZh-IM92F71jGLuwaioMKChA8yLFZc7eYnXkTO7MQZ~RoT4eTgV~lkirBL6UQpOk3F7LWzNjpAWWyx301zQjnU13NwJz6i6oKoWN4I5ZnZHGlft4m-1qzxomyX2vEGmg-U3IxJdOMp~OOSUXy7aM5HxIAtJ6WcWa00QF-MCjiIbpp8n2WlM4PIAUbg2tvUUInAndx3oFuzjJsBT2Asg__&Key-Pair-Id=APKAI33AGAEAYCXFBDTA[data sheet - SolarEdge ModBus]
