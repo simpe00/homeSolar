@@ -1,0 +1,18 @@
+Battery_Firmware_Version:
+  Value: null
+  dataType: String32
+  length: 16
+  regNum: 62752
+  unit: ''
+Battery_Manufacturer_Name:
+  Value: null
+  dataType: String32
+  length: 16
+  regNum: 62720
+  unit: ''
+Battery_Model:
+  Value: null
+  dataType: String32
+  length: 16
+  regNum: 62736
+  unit: ''

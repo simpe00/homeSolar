@@ -66,3 +66,9 @@ https://d1c96hlcey6qkb.cloudfront.net/de1543db-d336-4a89-9a35-dfb08ac7a6c6/83820
 === to do
 
 write getter und setter for value etc
+
+more data from https://d1c96hlcey6qkb.cloudfront.net/de1543db-d336-4a89-9a35-dfb08ac7a6c6/8382056182344db2a59e2460d1c50ba8?response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27SunSpec%2520Implementation%2520Technical%2520Note%2520-%2520Version%25202.2.20210304140202457.pdf&response-content-type=application%2Fpdf&Expires=1617105600&Signature=Lo9BBMILIlAiwG-2JFRp-s~MoaR4HS-AU0Aqc6us0RBXKLbWowOkiQLwGnz8dsCykCoEn~Y2qK2xbHB3WCksCQdPHQ4lD44lrxsvppNSiEpmk4rN-ASrhl4uNA5o1DQDdm~l20Uhx7jNaAaTK~cIhP8yasT2cQYeVSsRwpdaQVFFAZ9HHN2Gs4OaIJVG3H7gGQmuJ~p6QEN7sLPMYFoV05vMO9GMDHhbjlVvTF7SPt-vxD7DfYhxe9GhMstqTzbd~lAdUVCLCoqxI2slSIusqm-wadH3MJmV7S6kwLowpgwtRUi-Y7FHJjyqCruyho1pv9r41BC0NJcB1EoNO6tnvQ__&Key-Pair-Id=APKAI33AGAEAYCXFBDTA[pdf] with meter 1
+
+https://www.photovoltaikforum.com/thread/137180-solaredge-setapp-version-modbus-via-tcp/?pageNo=3[optimizer Data] 
+
+https://github.com/nmakel/solaredge_modbus

@@ -2,7 +2,7 @@
 apt-get install -y nmap
 
 # install python libs
-pip3 install --user -r requirements.txt
+pip3 install --user -r docker/requirements.txt
 
 SSH_FOLDER="$PWD/SSH"
 SRC_FOLDER="$PWD/src"
