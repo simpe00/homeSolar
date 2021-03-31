@@ -10,23 +10,29 @@ from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 from pymodbus.compat import iteritems
 import yaml
-import os 
+import os
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))+'/../res/register/'
 
 # import files
-with open(dir_path+'Bat.yaml', 'r') as file:
-    dictBatt = yaml.load(file, Loader=yaml.FullLoader)
+with open(dir_path+'BatConst.yaml', 'r') as file:
+    dictBatConst = yaml.load(file, Loader=yaml.FullLoader)
 
-with open(dir_path+'Inv_1.yaml', 'r') as file:
-    dictInverter_1 = yaml.load(file, Loader=yaml.FullLoader)
+with open(dir_path+'BatInst.yaml', 'r') as file:
+    dictBatInst = yaml.load(file, Loader=yaml.FullLoader)
 
-with open(dir_path+'Inv_C.yaml', 'r') as file:
-    dictInverter_C = yaml.load(file, Loader=yaml.FullLoader)
+with open(dir_path+'InvInst.yaml', 'r') as file:
+    dictInverterInst = yaml.load(file, Loader=yaml.FullLoader)
 
-with open(dir_path+'Meter.yaml', 'r') as file:
-    dictMeter = yaml.load(file, Loader=yaml.FullLoader)
+with open(dir_path+'InvConst.yaml', 'r') as file:
+    dictInverterConst = yaml.load(file, Loader=yaml.FullLoader)
+
+with open(dir_path+'MeterConst.yaml', 'r') as file:
+    dictMeterConst = yaml.load(file, Loader=yaml.FullLoader)
+
+with open(dir_path+'MeterInst.yaml', 'r') as file:
+    dictMeterInst = yaml.load(file, Loader=yaml.FullLoader)
 
 
 def main():
@@ -38,13 +44,23 @@ def main():
     modbusClient = ModbusClient("192.168.178.10", port=1502, timeout=10)
     modbusClient.connect()
 
-    getRegisterData(modbusClient, dictBatt)
-    getRegisterData(modbusClient, dictMeter)
-    getRegisterData(modbusClient, dictInverter_C)
-    getRegisterData(modbusClient, dictInverter_1)
+    # getRegisterData(modbusClient, dictTest)
 
-    PrintData()
-    # test(modbusClient)
+    getRegisterData(modbusClient, dictBatConst)
+    getRegisterData(modbusClient, dictMeterConst)
+    getRegisterData(modbusClient, dictInverterConst)
+
+    getRegisterData(modbusClient, dictBatInst)
+    getRegisterData(modbusClient, dictMeterInst)
+    getRegisterData(modbusClient, dictInverterInst)
+
+    test(dictBatConst)
+    test(dictMeterConst)
+    test(dictInverterConst)
+
+    test(dictBatInst)
+    test(dictMeterInst)
+    test(dictInverterInst)
 
     modbusClient.close()
     b = datetime.datetime.now()  # start measuring
@@ -52,8 +68,11 @@ def main():
     print("execution :  " + str(b-a))
 
 
-def test(modbusClient):
-    print('test')
+def test(dict: dict):
+    for name in dict:
+        print('Name: ' + name +
+              ' -  Value: ' + str(dict[name]['value']) +
+              ' -  Unit: ' + str(dict[name]['unit']))
 
 
 def getRegisterData(modbusClient, dictRegisterObj: dict):
@@ -87,9 +106,18 @@ def getRegisterData(modbusClient, dictRegisterObj: dict):
 
 def getRegValue(bytesList: list, dataType):
 
-    decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
-                                                 byteorder=Endian.Big,
-                                                 wordorder=Endian.Big)
+    if (dataType in ['acc32']):
+        decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
+                                                     byteorder=Endian.Big,
+                                                     wordorder=Endian.Big)
+    elif (dataType in ['String8', 'String16', 'String32']):
+        decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
+                                                     byteorder=Endian.Little,
+                                                     wordorder=Endian.Little)
+    else:
+        decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
+                                                     byteorder=Endian.Big,
+                                                     wordorder=Endian.Little)
 
     if(dataType in ['String8', 'String16', 'String32']):
         return str(decoder.decode_string(16).decode('utf-8'))
@@ -103,83 +131,20 @@ def getRegValue(bytesList: list, dataType):
     elif (dataType == 'Int32'):
         return decoder.decode_32bit_int()
 
-    elif (dataType == 'UInt32'):
+    elif (dataType in ['UInt32', 'acc32']):
         return decoder.decode_32bit_uint()
 
     elif (dataType == 'Float32'):
         return decoder.decode_32bit_float()
 
+    elif (dataType == 'UInt64'):
+        return decoder.decode_64bit_uint()
+
     else:
+        print('missing !!!!!!!!!!!!!!!!!!!!!!!!!!')
+        print(dataType)
+        print(bytesList)
         return str(decoder.decode_bits())
-
-
-def formatPowerText(powerValue):
-    # ---------------------------------------------------------------
-    # | Formats the given nuber (powerValue) into
-    # | a well-formed and readable text
-    # | -------------------------------------------------------------
-    # | Input parameters:
-    # | -> powerValue       FLOAT   The value to format
-    # | -------------------------------------------------------------
-    # | Return value:
-    # | <- formatedText     STRING
-    # |     A well-formed and readable text containing the powerValue
-    # ---------------------------------------------------------------
-
-    formatedText = ""
-
-    # Over 1000 'kilo Watt' will be displayed instead of 'Watt'
-    if abs(powerValue) > 1000:
-        formatedText = "{0} kW". \
-            format(str('{:0.2f}'.format(powerValue / 1000))).replace('.', ',')
-    else:
-        formatedText = "{0} W". \
-            format(str('{:.0f}'.format(powerValue))).replace('.', ',')
-
-    return formatedText
-
-
-def PrintData():
-
-    print("Inverter: " + dictInverter_C['C_Manufacturer']['value'] +
-          " - " + dictInverter_C['C_Model']['value'] +
-          " - SW Version: " +
-          dictInverter_C['C_SerialNumber']['value'])
-
-    print("Battery: " + dictBatt['Battery_Manufacturer_Name']['value'] +
-          " - " + dictBatt['Battery_Model']['value'] +
-          " - Firmware Version: " +
-          dictBatt['Battery_Firmware_Version']['value'])
-
-    # AC Power value of the inverter - Current production in Watt
-    powerProduction = dictInverter_1['I_AC_Energy_WH']['value']
-    print("Production: " + formatPowerText(powerProduction) + "h")
-
-    print("- AC Phase Total Current  : " +
-          str(dictInverter_1['I_AC_Current']['value']) + " A")
-    print("- AC Phase A     Current  : " +
-          str(dictInverter_1['I_AC_CurrentA']['value']) + " A")
-    print("- AC Phase B     Current  : " +
-          str(dictInverter_1['I_AC_CurrentB']['value']) + " A")
-    print("- AC Phase C     Current  : " +
-          str(dictInverter_1['I_AC_CurrentC']['value']) + " A")
-    print("- AC Current scale factor : " +
-          str(dictInverter_1['I_AC_Current_SF']['value']) + " A")
-
-    print("- AC Phase A - B   Voltage : " +
-          str(dictInverter_1['I_AC_VoltageAB']['value']) + " V")
-    print("- AC Phase B - C   Voltage : " +
-          str(dictInverter_1['I_AC_VoltageBC']['value']) + " V")
-    print("- AC Phase C - A   Voltage : " +
-          str(dictInverter_1['I_AC_VoltageCA']['value']) + " V")
-    print("-- AC Voltage scale factor : " +
-          str(dictInverter_1['I_AC_Voltage_SF']['value']) + " V")
-
-    # meter
-    print("Inverter: " + dictMeter['C_Manufacturer']['value'] +
-          " - " + dictMeter['C_Model']['value'] +
-          " - " + dictMeter['C_Option']['value'] +
-          " - SW Version: " + dictMeter['C_SerialNumber']['value'])
 
 
 main()

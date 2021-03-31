@@ -72,3 +72,5 @@ more data from https://d1c96hlcey6qkb.cloudfront.net/de1543db-d336-4a89-9a35-dfb
 https://www.photovoltaikforum.com/thread/137180-solaredge-setapp-version-modbus-via-tcp/?pageNo=3[optimizer Data] 
 
 https://github.com/nmakel/solaredge_modbus
+
+https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/?pageNo=8[Battery-Register]

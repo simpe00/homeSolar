@@ -1,0 +1,235 @@
+# Current
+M_AC_Current:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40190
+  unit: 'A'
+M_AC_Current_A:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40191
+  unit: 'A'
+M_AC_Current_B:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40192
+  unit: 'A'
+M_AC_Current_C:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40193
+  unit: 'A'
+M_AC_Current_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40194
+  unit: 'SF'
+
+# Voltage - Line to Neutral Voltage
+M_AC_Voltage_L_N:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40195
+  unit: 'V'
+M_AC_Voltage_A_N:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40196
+  unit: 'V'
+M_AC_Voltage_B_N:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40197
+  unit: 'V'
+M_AC_Voltage_C_N:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40198
+  unit: 'V'
+
+# Voltage - Line to Line Voltage
+M_AC_Voltage_L_L:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40199
+  unit: 'V'
+M_AC_Voltage_A_B:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40200
+  unit: 'V'
+M_AC_Voltage_B_C:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40201
+  unit: 'V'
+M_AC_Voltage_C_A:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40202
+  unit: 'V'
+M_AC_Voltage_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40203
+  unit: 'SF'
+
+
+# Frequency
+M_AC_Freq:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40204
+  unit: 'Hz'
+M_AC_Freq_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40205
+  unit: 'SF'
+
+# Power - Real Power
+M_AC_Power:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40206
+  unit: 'W'
+M_AC_Power_A:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40207
+  unit: 'W'
+M_AC_Power_B:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40208
+  unit: 'W'
+M_AC_Power_C:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40209
+  unit: 'W'
+M_AC_Power_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40210
+  unit: 'SF'
+
+
+# Power - Apparent Power
+M_AC_VA:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40211
+  unit: 'VA'
+M_AC_VA_A:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40212
+  unit: 'VA'
+M_AC_VA_B:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40213
+  unit: 'VA'
+M_AC_VA_C:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40214
+  unit: 'VA'
+M_AC_VA_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40215
+  unit: 'SF'
+
+# Power - Reactive Power
+M_AC_VAR:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40216
+  unit: 'VAR'
+M_AC_VAR_A:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40217
+  unit: 'VAR'
+M_AC_VAR_B:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40218
+  unit: 'VAR'
+M_AC_VAR_C:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40219
+  unit: 'VAR'
+M_AC_VAR_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40220
+  unit: 'SF'
+
+
+
+# Power - Power Factor
+M_AC_PF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40221
+  unit: 'VAR'
+M_AC_PF_A:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40222
+  unit: 'VAR'
+M_AC_PF_B:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40223
+  unit: 'VAR'
+M_AC_PF_C:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40224
+  unit: 'VAR'
+M_AC_PF_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40225
+  unit: 'SF'

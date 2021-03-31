@@ -1,0 +1,174 @@
+Average_Temperature:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62828
+  unit: '°C'
+Maxe_Temperature:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62830
+  unit: '°C'
+Instantaneous_Voltage:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62832
+  unit: 'V'
+Instantaneous_Current:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62834
+  unit: 'A'
+Instantaneous_Power:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62836
+  unit: 'W'
+Lifetime_Export_Energy_Counter:
+  value: null
+  dataType: UInt64
+  length: 4
+  regNum: 62838
+  unit: 'Wh'
+Lifetime_Import_Energy_Counter:
+  value: null
+  dataType: UInt64
+  length: 4
+  regNum: 62842
+  unit: 'Wh'
+Max_Energy:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62846
+  unit: 'Wh'
+Available_Energy:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62848
+  unit: 'Wh'
+State_of_Health:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62850
+  unit: ''
+State_of_Energy:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62852
+  unit: ''
+Status:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 62854
+  unit: ''
+Status_Internal:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 62856
+  unit: ''
+Events_Log_0:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62858
+  unit: ''
+Events_Log_1:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62859
+  unit: ''
+Events_Log_2:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62860
+  unit: ''
+Events_Log_3:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62861
+  unit: ''
+Events_Log_4:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62862
+  unit: ''
+Events_Log_5:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62863
+  unit: ''
+Events_Log_6:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62864
+  unit: ''
+Events_Log_7:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62865
+  unit: ''
+Events_Log_Internal_0:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62866
+  unit: ''
+Events_Log_Internal_1:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62867
+  unit: ''
+Events_Log_Internal_2:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62868
+  unit: ''
+Events_Log_Internal_3:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62869
+  unit: ''
+Events_Log_Internal_4:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62870
+  unit: ''
+Events_Log_Internal_5:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62871
+  unit: ''
+Events_Log_Internal_6:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62872
+  unit: ''
+Events_Log_Internal_7:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62873
+  unit: ''

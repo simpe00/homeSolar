@@ -1,0 +1,60 @@
+Battery_Firmware_Version:
+  value: null
+  dataType: String32
+  length: 16
+  regNum: 62752
+  unit: ''
+Battery_Manufacturer_Name:
+  value: null
+  dataType: String32
+  length: 16
+  regNum: 62720
+  unit: ''
+Battery_Model:
+  value: null
+  dataType: String32
+  length: 16
+  regNum: 62736
+  unit: ''
+Serial_Number:
+  value: null
+  dataType: String32
+  length: 16
+  regNum: 62768
+  unit: ''
+Device_ID:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 62784
+  unit: ''
+Rated_Energy:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62786
+  unit: 'Wh'
+Max_Charge_Continues_Power:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62788
+  unit: 'W'
+Max_Discharge_Continues_Power:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62790
+  unit: 'W'
+Max_Charge_Peak_Power:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62792
+  unit: 'W'
+Max_Discharge_Peak_Power:
+  value: null
+  dataType: Float32
+  length: 2
+  regNum: 62794
+  unit: 'W'

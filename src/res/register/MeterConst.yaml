@@ -1,59 +1,59 @@
 C_Manufacturer:
-  Value: null
+  value: null
   dataType: String32
   length: 16
   regNum: 40123
   unit: ''
 C_Model:
-  Value: null
+  value: null
   dataType: String32
   length: 16
   regNum: 40139
   unit: ''
 C_Option:
-  Value: null
+  value: null
   dataType: String16
   length: 8
   regNum: 40155
   unit: ''
 C_SerialNumber:
-  Value: null
+  value: null
   dataType: String32
   length: 16
   regNum: 40171
   unit: ''
 C_SunSpec_DID:
-  Value: null
+  value: null
   dataType: UInt16
   length: 1
   regNum: 40121
   unit: ''
 C_SunSpec_Length:
-  Value: null
+  value: null
   dataType: UInt16
   length: 1
   regNum: 40122
   unit: ''
 C_DeviceAddress:
-  Value: null
+  value: null
   dataType: UInt16
   length: 1
   regNum: 40187
   unit: ''
 C_SunSpec_DID_v2:
-  Value: null
+  value: null
   dataType: UInt16
   length: 1
   regNum: 40188
   unit: ''
 C_SunSpec_Length_v2:
-  Value: null
+  value: null
   dataType: UInt16
   length: 1
   regNum: 40189
   unit: ''
 C_Version:
-  Value: null
+  value: null
   dataType: String16
   length: 8
   regNum: 40163
