@@ -9,9 +9,17 @@ from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 from pymodbus.compat import iteritems
+from elasticsearch import Elasticsearch
 import yaml
 import os
-from elasticsearch import Elasticsearch
+import logging
+
+# looging for development
+logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)s'
+                    ' {%(module)s} [%(funcName)s] %(message)s',
+                    datefmt='%Y-%m-%dT%H:%M:%S',
+                    filemode='w',
+                    level=logging.INFO)
 
 
 dictBatInst = {}
@@ -21,46 +29,51 @@ dictInverterInst = {}
 dictBatConst = {}
 dictMeterConst = {}
 dictInverterConst = {}
+loaded = False
 
 
 def main():
     a = datetime.datetime.now()  # start measuring
-    print("begin at: " + str(a))
-    # print ("Current Time: " + datetime.datetime.now().strftime('%H:%M:%S'))
 
     modbusClient = ModbusClient("192.168.178.10", port=1502, timeout=10)
     modbusClient.connect()
 
     openRegisterFiles()
 
-    getRegisterData(modbusClient, dictBatConst)
-    getRegisterData(modbusClient, dictMeterConst)
-    getRegisterData(modbusClient, dictInverterConst)
-
-    intToFloatBySF(dictBatConst)
-    intToFloatBySF(dictMeterConst)
-    intToFloatBySF(dictInverterConst)
-
-    getRegisterData(modbusClient, dictBatInst)
-    getRegisterData(modbusClient, dictMeterInst)
-    getRegisterData(modbusClient, dictInverterInst)
-
-    intToFloatBySF(dictBatInst)
-    intToFloatBySF(dictMeterInst)
-    intToFloatBySF(dictInverterInst)
-
-    test(dictBatConst)
-    test(dictMeterConst)
-    test(dictInverterConst)
-
-    test(dictBatInst)
-    test(dictMeterInst)
-    test(dictInverterInst)
+    global loaded
+    loaded = False
+    try:
+        getRegisterData(modbusClient, dictBatConst)
+        getRegisterData(modbusClient, dictMeterConst)
+        getRegisterData(modbusClient, dictInverterConst)
+        getRegisterData(modbusClient, dictBatInst)
+        getRegisterData(modbusClient, dictMeterInst)
+        getRegisterData(modbusClient, dictInverterInst)
+        loaded = True
+    except Exception:
+        logging.info("getRegisterData - register was not loaded")
 
     modbusClient.close()
+
+    if (loaded):
+        intToFloatBySF(dictBatConst)
+        intToFloatBySF(dictMeterConst)
+        intToFloatBySF(dictInverterConst)
+        intToFloatBySF(dictBatInst)
+        intToFloatBySF(dictMeterInst)
+        intToFloatBySF(dictInverterInst)
+
+        send2es()
+
+    # test(dictBatConst)
+    # test(dictMeterConst)
+    # test(dictInverterConst)
+    # test(dictBatInst)
+    # test(dictMeterInst)
+    # test(dictInverterInst)
+
     b = datetime.datetime.now()  # start measuring
-    print("end at: " + str(b))
-    print("execution :  " + str(b-a))
+    logging.info("execution :  " + str(b-a))
 
 
 def test(dict: dict):
@@ -83,9 +96,13 @@ def getRegisterData(modbusClient, dictRegisterObj: dict):
         - startNum
 
     # read register
-    temp = modbusClient.read_holding_registers(startNum,
-                                               length,
-                                               unit=1)
+    try:
+        temp = modbusClient.read_holding_registers(
+            startNum,
+            length,
+            unit=1)
+    except Exception:
+        logging.error("Modbus connection disabled - retry later")
 
     timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
@@ -219,5 +236,4 @@ def send2es():
 if __name__ == "__main__":
 
     while True:
-        main()
-        send2es()
+        main()        
