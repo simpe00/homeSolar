@@ -3,172 +3,201 @@ Average_Temperature:
   dataType: Float32
   length: 2
   regNum: 62828
+  relate_SF_regNum: None
   unit: '°C'
 Maxe_Temperature:
   value: null
   dataType: Float32
   length: 2
   regNum: 62830
+  relate_SF_regNum: None
   unit: '°C'
 Instantaneous_Voltage:
   value: null
   dataType: Float32
   length: 2
   regNum: 62832
+  relate_SF_regNum: None
   unit: 'V'
 Instantaneous_Current:
   value: null
   dataType: Float32
   length: 2
   regNum: 62834
+  relate_SF_regNum: None
   unit: 'A'
 Instantaneous_Power:
   value: null
   dataType: Float32
   length: 2
   regNum: 62836
+  relate_SF_regNum: None
   unit: 'W'
 Lifetime_Export_Energy_Counter:
   value: null
   dataType: UInt64
   length: 4
   regNum: 62838
+  relate_SF_regNum: None
   unit: 'Wh'
 Lifetime_Import_Energy_Counter:
   value: null
   dataType: UInt64
   length: 4
   regNum: 62842
+  relate_SF_regNum: None
   unit: 'Wh'
 Max_Energy:
   value: null
   dataType: Float32
   length: 2
   regNum: 62846
+  relate_SF_regNum: None
   unit: 'Wh'
 Available_Energy:
   value: null
   dataType: Float32
   length: 2
   regNum: 62848
+  relate_SF_regNum: None
   unit: 'Wh'
 State_of_Health:
   value: null
   dataType: Float32
   length: 2
   regNum: 62850
+  relate_SF_regNum: None
   unit: ''
 State_of_Energy:
   value: null
   dataType: Float32
   length: 2
   regNum: 62852
+  relate_SF_regNum: None
   unit: ''
 Status:
   value: null
   dataType: UInt32
   length: 2
   regNum: 62854
+  relate_SF_regNum: None
   unit: ''
 Status_Internal:
   value: null
   dataType: UInt32
   length: 2
   regNum: 62856
+  relate_SF_regNum: None
   unit: ''
 Events_Log_0:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62858
+  relate_SF_regNum: None
   unit: ''
 Events_Log_1:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62859
+  relate_SF_regNum: None
   unit: ''
 Events_Log_2:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62860
+  relate_SF_regNum: None
   unit: ''
 Events_Log_3:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62861
+  relate_SF_regNum: None
   unit: ''
 Events_Log_4:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62862
+  relate_SF_regNum: None
   unit: ''
 Events_Log_5:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62863
+  relate_SF_regNum: None
   unit: ''
 Events_Log_6:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62864
+  relate_SF_regNum: None
   unit: ''
 Events_Log_7:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62865
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_0:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62866
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_1:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62867
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_2:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62868
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_3:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62869
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_4:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62870
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_5:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62871
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_6:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62872
+  relate_SF_regNum: None
   unit: ''
 Events_Log_Internal_7:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62873
+  relate_SF_regNum: None
   unit: ''

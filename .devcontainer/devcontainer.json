@@ -59,10 +59,11 @@
 
 	// add to existing network
 	"runArgs": [
-		"--network=host",
-		//"--ip=${localEnv:IPV4_DEVCONTAINER}",
+		"--network=solar_test_backend",
+		"--ip=${localEnv:IPV4_DEVCONTAINER}",
 		"--name=devContainerPythonBasic",
 		"--init",
+		"--env-file",".env"
 	],
 
 

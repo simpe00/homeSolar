@@ -1,0 +1,90 @@
+version: '3.7'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERS}
+    container_name: elasticsearch
+    environment:
+      - node.name=SolarHome
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true          # dev
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"    # dev
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - dataSolar01:/usr/share/elasticsearch/data
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - ${PORT_ELASTIC_1}:${PORT_ELASTIC_1}
+      - ${PORT_ELASTIC_2}:${PORT_ELASTIC_2}
+    networks:
+      backend:
+        ipv4_address: ${IPV4_ELASTICSEARCH} 
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:${KIBANA_VERS}
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:${PORT_ELASTIC_1}
+    ports:
+      - ${PORT_KIBANA}:${PORT_KIBANA}
+    links:
+      - elasticsearch
+    networks:
+      backend:
+        ipv4_address: ${IPV4_KIBANA}
+
+  grafana:
+    container_name: grafana
+    image: grafana
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.grafana
+    ports:
+      - ${PORT_GRAFANA}:${PORT_GRAFANA}
+    env_file:
+     - ./.env
+    depends_on: 
+      - elasticsearch
+    networks:
+      backend:
+        ipv4_address: ${IPV4_GRAFANA}
+
+  pyserver:
+    container_name: pyserver
+    image: pyserver
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.pyserver
+    env_file:
+     - ./.env    
+    environment:
+      - IPV4_ADDR=${IPV4_PYTHON_SERVER}
+    ports:
+      - ${PORT_DEV_REMOTE_DEBUG}:${PORT_DEV_REMOTE_DEBUG}
+    entrypoint: [ "python3", "-m", "debugpy", "--listen",
+     "${IPV4_PYTHON_SERVER}:${PORT_DEV_REMOTE_DEBUG}", "./main.py"]
+    stdin_open: true
+    tty: true
+    depends_on: 
+      - elasticsearch
+    restart: always
+    networks:
+      backend:
+        ipv4_address: ${IPV4_PYTHON_SERVER}
+
+volumes:
+  dataSolar01:
+    driver: local
+
+networks:
+  backend:
+    ipam:
+      config:
+        - subnet: ${IPV4_SUBNET}

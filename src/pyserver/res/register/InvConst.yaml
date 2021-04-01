@@ -3,58 +3,68 @@ C_DeviceAddress:
   dataType: UInt16
   length: 1
   regNum: 40068
+  relate_SF_regNum: None
   unit: ''
 C_Manufacturer:
   value: null
   dataType: String32
   length: 16
   regNum: 40004
+  relate_SF_regNum: None
   unit: ''
 C_Model:
   value: null
   dataType: String32
   length: 16
   regNum: 40020
+  relate_SF_regNum: None
   unit: ''
 C_SerialNumber:
   value: null
   dataType: String32
   length: 16
   regNum: 40052
+  relate_SF_regNum: None
   unit: ''
 C_SunSpec_DID:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40002
+  relate_SF_regNum: None
   unit: ''
 C_SunSpec_DID_v2:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40069
+  relate_SF_regNum: None
   unit: ''
 C_SunSpec_ID:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40000
+  relate_SF_regNum: None
   unit: ''
 C_SunSpec_Length:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40003
+  relate_SF_regNum: None
   unit: ''
 C_SunSpec_Length_v2:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40070
+  relate_SF_regNum: None
   unit: ''
 C_Version:
   value: null
   dataType: String16
   length: 8
   regNum: 40044
+  relate_SF_regNum: None
   unit: ''

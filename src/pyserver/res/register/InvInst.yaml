@@ -3,138 +3,161 @@ I_AC_Current:
   dataType: UInt16
   length: 1
   regNum: 40071
-  unit: ''
+  relate_SF_regNum: 40075
+  unit: 'A'
 I_AC_CurrentA:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40072
-  unit: ''
+  relate_SF_regNum: 40075
+  unit: 'A'
 I_AC_CurrentB:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40073
-  unit: ''
+  relate_SF_regNum: 40075
+  unit: 'A'
 I_AC_CurrentC:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40074
-  unit: ''
+  relate_SF_regNum: 40075
+  unit: 'A'
 I_AC_Current_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40075
-  unit: ''
+  relate_SF_regNum: None
+  unit: 'A'
 I_AC_Energy_WH:
   value: null
   dataType: acc32
   length: 2
   regNum: 40093
+  relate_SF_regNum: None
   unit: 'Wh'
 I_AC_Frequency:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40085
+  relate_SF_regNum: 40086
   unit: 'Hz'
 I_AC_Frequency_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40086
+  relate_SF_regNum: None
   unit: ''
 I_AC_PF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40091
-  unit: ''
+  relate_SF_regNum: 40092
+  unit: '%'
 I_AC_PF_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40092
+  relate_SF_regNum: None
   unit: ''
 I_AC_Power:
   value: null
   dataType: Int16
   length: 1
   regNum: 40083
-  unit: ''
+  relate_SF_regNum: 40084
+  unit: 'W'
 I_AC_Power_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40084
+  relate_SF_regNum: None
   unit: ''
 I_AC_VA:
   value: null
   dataType: Int16
   length: 1
   regNum: 40087
-  unit: ''
+  relate_SF_regNum: 40088
+  unit: 'VA'
 I_AC_VAR:
   value: null
   dataType: Int16
   length: 1
   regNum: 40089
-  unit: ''
+  relate_SF_regNum: 40090
+  unit: 'VAR'
 I_AC_VAR_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40090
+  relate_SF_regNum: None
   unit: ''
 I_AC_VA_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40088
+  relate_SF_regNum: None
   unit: ''
 I_AC_VoltageAB:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40076
-  unit: ''
+  relate_SF_regNum: 40082
+  unit: 'V'
 I_AC_VoltageAN:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40079
-  unit: ''
+  relate_SF_regNum: 40082
+  unit: 'V'
 I_AC_VoltageBC:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40077
-  unit: ''
+  relate_SF_regNum: 40082
+  unit: 'V'
 I_AC_VoltageBN:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40080
-  unit: ''
+  relate_SF_regNum: 40082
+  unit: 'V'
 I_AC_VoltageCA:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40078
-  unit: ''
+  relate_SF_regNum: 40082
+  unit: 'V'
 I_AC_VoltageCN:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40081
-  unit: ''
+  relate_SF_regNum: 40082
+  unit: 'V'
 I_AC_Voltage_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40082
+  relate_SF_regNum: None
   unit: ''
 
 
@@ -143,54 +166,63 @@ I_AC_Energy_WH_SF:
   dataType: UInt16
   length: 1
   regNum: 40095
+  relate_SF_regNum: None
   unit: ''
 I_DC_Current:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40096
+  relate_SF_regNum: 40097
   unit: 'A'
 I_DC_Current_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40097
+  relate_SF_regNum: None
   unit: ''
 I_DC_Voltage:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40098
+  relate_SF_regNum: 40099
   unit: 'V'
 I_DC_Voltage_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40099
+  relate_SF_regNum: None
   unit: ''
 I_DC_Power:
   value: null
   dataType: Int16
   length: 1
   regNum: 40100
+  relate_SF_regNum: 40101
   unit: 'W'
 I_DC_Power_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40101
+  relate_SF_regNum: None
   unit: ''
 I_Temp_Sink:
   value: null
   dataType: Int16
   length: 1
   regNum: 40103
+  relate_SF_regNum: 40106
   unit: '°C'
 I_Temp_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40106
+  relate_SF_regNum: None
   unit: ''
 
 I_Status:
@@ -198,11 +230,13 @@ I_Status:
   dataType: UInt16
   length: 1
   regNum: 40107
+  relate_SF_regNum: None
   unit: ''
 I_Status_Vendor:
   value: null
   dataType: UInt16
   length: 1
   regNum: 40108
+  relate_SF_regNum: None
   unit: ''
 

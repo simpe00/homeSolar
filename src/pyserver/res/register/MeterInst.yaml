@@ -4,30 +4,35 @@ M_AC_Current:
   dataType: Int16
   length: 1
   regNum: 40190
+  relate_SF_regNum: 40194
   unit: 'A'
 M_AC_Current_A:
   value: null
   dataType: Int16
   length: 1
   regNum: 40191
+  relate_SF_regNum: 40194
   unit: 'A'
 M_AC_Current_B:
   value: null
   dataType: Int16
   length: 1
   regNum: 40192
+  relate_SF_regNum: 40194
   unit: 'A'
 M_AC_Current_C:
   value: null
   dataType: Int16
   length: 1
   regNum: 40193
+  relate_SF_regNum: 40194
   unit: 'A'
 M_AC_Current_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40194
+  relate_SF_regNum: None
   unit: 'SF'
 
 # Voltage - Line to Neutral Voltage
@@ -36,24 +41,28 @@ M_AC_Voltage_L_N:
   dataType: Int16
   length: 1
   regNum: 40195
+  relate_SF_regNum: 40203
   unit: 'V'
 M_AC_Voltage_A_N:
   value: null
   dataType: Int16
   length: 1
   regNum: 40196
+  relate_SF_regNum: 40203
   unit: 'V'
 M_AC_Voltage_B_N:
   value: null
   dataType: Int16
   length: 1
   regNum: 40197
+  relate_SF_regNum: 40203
   unit: 'V'
 M_AC_Voltage_C_N:
   value: null
   dataType: Int16
   length: 1
   regNum: 40198
+  relate_SF_regNum: 40203
   unit: 'V'
 
 # Voltage - Line to Line Voltage
@@ -62,30 +71,35 @@ M_AC_Voltage_L_L:
   dataType: Int16
   length: 1
   regNum: 40199
+  relate_SF_regNum: 40203
   unit: 'V'
 M_AC_Voltage_A_B:
   value: null
   dataType: Int16
   length: 1
   regNum: 40200
+  relate_SF_regNum: 40203
   unit: 'V'
 M_AC_Voltage_B_C:
   value: null
   dataType: Int16
   length: 1
   regNum: 40201
+  relate_SF_regNum: 40203
   unit: 'V'
 M_AC_Voltage_C_A:
   value: null
   dataType: Int16
   length: 1
   regNum: 40202
+  relate_SF_regNum: 40203
   unit: 'V'
 M_AC_Voltage_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40203
+  relate_SF_regNum: None
   unit: 'SF'
 
 
@@ -95,12 +109,14 @@ M_AC_Freq:
   dataType: Int16
   length: 1
   regNum: 40204
+  relate_SF_regNum: 40205
   unit: 'Hz'
 M_AC_Freq_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40205
+  relate_SF_regNum: None
   unit: 'SF'
 
 # Power - Real Power
@@ -109,30 +125,35 @@ M_AC_Power:
   dataType: Int16
   length: 1
   regNum: 40206
+  relate_SF_regNum: 40210
   unit: 'W'
 M_AC_Power_A:
   value: null
   dataType: Int16
   length: 1
   regNum: 40207
+  relate_SF_regNum: 40210
   unit: 'W'
 M_AC_Power_B:
   value: null
   dataType: Int16
   length: 1
   regNum: 40208
+  relate_SF_regNum: 40210
   unit: 'W'
 M_AC_Power_C:
   value: null
   dataType: Int16
   length: 1
   regNum: 40209
+  relate_SF_regNum: 40210
   unit: 'W'
 M_AC_Power_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40210
+  relate_SF_regNum: None
   unit: 'SF'
 
 
@@ -142,30 +163,35 @@ M_AC_VA:
   dataType: Int16
   length: 1
   regNum: 40211
+  relate_SF_regNum: 40215
   unit: 'VA'
 M_AC_VA_A:
   value: null
   dataType: Int16
   length: 1
   regNum: 40212
+  relate_SF_regNum: 40215
   unit: 'VA'
 M_AC_VA_B:
   value: null
   dataType: Int16
   length: 1
   regNum: 40213
+  relate_SF_regNum: 40215
   unit: 'VA'
 M_AC_VA_C:
   value: null
   dataType: Int16
   length: 1
   regNum: 40214
+  relate_SF_regNum: 40215
   unit: 'VA'
 M_AC_VA_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40215
+  relate_SF_regNum: None
   unit: 'SF'
 
 # Power - Reactive Power
@@ -174,30 +200,35 @@ M_AC_VAR:
   dataType: Int16
   length: 1
   regNum: 40216
+  relate_SF_regNum: 40220
   unit: 'VAR'
 M_AC_VAR_A:
   value: null
   dataType: Int16
   length: 1
   regNum: 40217
+  relate_SF_regNum: 40220
   unit: 'VAR'
 M_AC_VAR_B:
   value: null
   dataType: Int16
   length: 1
   regNum: 40218
+  relate_SF_regNum: 40220
   unit: 'VAR'
 M_AC_VAR_C:
   value: null
   dataType: Int16
   length: 1
   regNum: 40219
+  relate_SF_regNum: 40220
   unit: 'VAR'
 M_AC_VAR_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40220
+  relate_SF_regNum: None
   unit: 'SF'
 
 
@@ -208,30 +239,35 @@ M_AC_PF:
   dataType: Int16
   length: 1
   regNum: 40221
+  relate_SF_regNum: 40225
   unit: 'VAR'
 M_AC_PF_A:
   value: null
   dataType: Int16
   length: 1
   regNum: 40222
+  relate_SF_regNum: 40225
   unit: 'VAR'
 M_AC_PF_B:
   value: null
   dataType: Int16
   length: 1
   regNum: 40223
+  relate_SF_regNum: 40225
   unit: 'VAR'
 M_AC_PF_C:
   value: null
   dataType: Int16
   length: 1
   regNum: 40224
+  relate_SF_regNum: 40225
   unit: 'VAR'
 M_AC_PF_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40225
+  relate_SF_regNum: None
   unit: 'SF'
 
 
@@ -242,24 +278,28 @@ M_Exported:
   dataType: UInt32
   length: 2
   regNum: 40226
+  relate_SF_regNum: 40243
   unit: 'Wh'
 M_Exported_A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40228
+  relate_SF_regNum: 40243
   unit: 'Wh'
 M_Exported_B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40230
+  relate_SF_regNum: 40243
   unit: 'Wh'
 M_Exported_C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40232
+  relate_SF_regNum: 40243
   unit: 'Wh'
 
 M_Imported:
@@ -267,30 +307,35 @@ M_Imported:
   dataType: UInt32
   length: 2
   regNum: 40234
+  relate_SF_regNum: 40243
   unit: 'Wh'
 M_Imported_A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40236
+  relate_SF_regNum: 40243
   unit: 'Wh'
 M_Imported_B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40238
+  relate_SF_regNum: 40243
   unit: 'Wh'
 M_Imported_C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40240
+  relate_SF_regNum: 40243
   unit: 'Wh'
 M_Energy_W_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40243
+  relate_SF_regNum: None
   unit: ''
 
 
@@ -301,24 +346,28 @@ M_Exported_VA:
   dataType: UInt32
   length: 2
   regNum: 40243
+  relate_SF_regNum: 40259
   unit: 'VAh'
 M_Exported_VA_A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40245
+  relate_SF_regNum: 40259
   unit: 'VAh'
 M_Exported_VA_B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40247
+  relate_SF_regNum: 40259
   unit: 'VAh'
 M_Exported_VA_C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40249
+  relate_SF_regNum: 40259
   unit: 'VAh'
 
 M_Imported_VA:
@@ -326,30 +375,35 @@ M_Imported_VA:
   dataType: UInt32
   length: 2
   regNum: 40251
+  relate_SF_regNum: 40259
   unit: 'VAh'
 M_Imported_VA_A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40253
+  relate_SF_regNum: 40259
   unit: 'VAh'
 M_Imported_VA_B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40255
+  relate_SF_regNum: 40259
   unit: 'VAh'
 M_Imported_VA_C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40257
+  relate_SF_regNum: 40259
   unit: 'VAh'
 M_Energy_VA_SF:
   value: null
   dataType: Int16
   length: 1
   regNum: 40259
+  relate_SF_regNum: None
   unit: ''
 
 
@@ -360,48 +414,56 @@ M_Imported_VARh_Q1:
   dataType: UInt32
   length: 2
   regNum: 40260
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Imported_VARh_Q1A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40262
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Imported_VARh_Q1B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40264
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Imported_VARh_Q1C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40266
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Imported_VARh_Q2:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40268
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Imported_VARh_Q2A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40270
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Imported_VARh_Q2B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40272
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Imported_VARh_Q2C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40274
+  relate_SF_regNum: 40292
   unit: 'VARh'
 
 
@@ -411,48 +473,56 @@ M_Exported_VARh_Q3:
   dataType: UInt32
   length: 2
   regNum: 40276
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Exported_VARh_Q3A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40278
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Exported_VARh_Q3B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40280
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Exported_VARh_Q3C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40282
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Exported_VARh_Q4:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40284
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Exported_VARh_Q4A:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40286
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Exported_VARh_Q4B:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40288
+  relate_SF_regNum: 40292
   unit: 'VARh'
 M_Exported_VARh_Q4C:
   value: null
   dataType: UInt32
   length: 2
   regNum: 40290
+  relate_SF_regNum: 40292
   unit: 'VARh'
 
 
@@ -461,6 +531,7 @@ M_Energy_VAR_SF:
   dataType: Int16
   length: 1
   regNum: 40292
+  relate_SF_regNum: None
   unit: ''
 
 M_Events:
@@ -468,5 +539,6 @@ M_Events:
   dataType: UInt32
   length: 2
   regNum: 40293
+  relate_SF_regNum: None
   unit: 'Flags'
 

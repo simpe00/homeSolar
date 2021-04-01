@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  grafana:
+    volumes:
+      - ./docker/datasources/:/etc/grafana/provisioning/datasources/
+      - ./docker/dashboards/:/etc/grafana/provisioning/dashboards/
+      - ./docker/dashboards/json:/etc/dashboards/
+
+  pyserver:
+    volumes:
+      - ./src/pyserver/:/usr/src/pyserver/

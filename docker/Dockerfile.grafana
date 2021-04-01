@@ -1,0 +1,6 @@
+FROM grafana/grafana:7.4.0
+
+# add datasources and dashboards
+COPY docker/datasources/ /etc/grafana/provisioning/datasources/
+COPY /docker/dashboards/ /etc/grafana/provisioning/dashboards/
+COPY /docker/dashboards/json /etc/dashboards/

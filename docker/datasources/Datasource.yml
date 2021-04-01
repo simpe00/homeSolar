@@ -1,0 +1,14 @@
+# config file version
+apiVersion: 1
+
+datasources:
+  - name: ElasticSolar
+    type: elasticsearch
+    access: proxy
+    database: "solar"
+    url: http://${IPV4_ELASTICSEARCH}:${PORT_ELASTIC_1}
+    jsonData:
+      timeField: "@timestamp"
+      esVersion: 70
+      interval: null
+

@@ -3,58 +3,68 @@ Battery_Firmware_Version:
   dataType: String32
   length: 16
   regNum: 62752
+  relate_SF_regNum: None
   unit: ''
 Battery_Manufacturer_Name:
   value: null
   dataType: String32
   length: 16
   regNum: 62720
+  relate_SF_regNum: None
   unit: ''
 Battery_Model:
   value: null
   dataType: String32
   length: 16
   regNum: 62736
+  relate_SF_regNum: None
   unit: ''
 Serial_Number:
   value: null
   dataType: String32
   length: 16
   regNum: 62768
+  relate_SF_regNum: None
   unit: ''
 Device_ID:
   value: null
   dataType: UInt16
   length: 1
   regNum: 62784
+  relate_SF_regNum: None
   unit: ''
 Rated_Energy:
   value: null
   dataType: Float32
   length: 2
   regNum: 62786
+  relate_SF_regNum: None
   unit: 'Wh'
 Max_Charge_Continues_Power:
   value: null
   dataType: Float32
   length: 2
   regNum: 62788
+  relate_SF_regNum: None
   unit: 'W'
 Max_Discharge_Continues_Power:
   value: null
   dataType: Float32
   length: 2
   regNum: 62790
+  relate_SF_regNum: None
   unit: 'W'
 Max_Charge_Peak_Power:
   value: null
   dataType: Float32
   length: 2
   regNum: 62792
+  relate_SF_regNum: None
   unit: 'W'
 Max_Discharge_Peak_Power:
   value: null
   dataType: Float32
   length: 2
   regNum: 62794
+  relate_SF_regNum: None
   unit: 'W'

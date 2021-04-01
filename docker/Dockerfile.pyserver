@@ -1,0 +1,16 @@
+FROM ubuntu:20.04
+
+# install and update
+RUN \
+    apt-get update && \
+    apt install python3.9 -y && \
+    apt install python3-pip -y && \
+    apt-get install iputils-ping -y 
+
+# [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
+COPY docker/requirements.txt /tmp/pip-tmp/
+RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+    && rm -rf /tmp/pip-tmp
+
+ADD ./src/pyserver/ /usr/src/pyserver/
+WORKDIR /usr/src/pyserver

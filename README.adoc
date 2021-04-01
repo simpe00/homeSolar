@@ -74,3 +74,9 @@ https://www.photovoltaikforum.com/thread/137180-solaredge-setapp-version-modbus-
 https://github.com/nmakel/solaredge_modbus
 
 https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/?pageNo=8[Battery-Register]
+
+.add local bind-mounts. Makes Hot-deployment possible
+[source, bash]
+----
+docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml up --build --force-recreate -d
+----

@@ -11,28 +11,16 @@ from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 from pymodbus.compat import iteritems
 import yaml
 import os
+from elasticsearch import Elasticsearch
 
 
-dir_path = os.path.dirname(os.path.realpath(__file__))+'/../res/register/'
+dictBatInst = {}
+dictMeterInst = {}
+dictInverterInst = {}
 
-# import files
-with open(dir_path+'BatConst.yaml', 'r') as file:
-    dictBatConst = yaml.load(file, Loader=yaml.FullLoader)
-
-with open(dir_path+'BatInst.yaml', 'r') as file:
-    dictBatInst = yaml.load(file, Loader=yaml.FullLoader)
-
-with open(dir_path+'InvInst.yaml', 'r') as file:
-    dictInverterInst = yaml.load(file, Loader=yaml.FullLoader)
-
-with open(dir_path+'InvConst.yaml', 'r') as file:
-    dictInverterConst = yaml.load(file, Loader=yaml.FullLoader)
-
-with open(dir_path+'MeterConst.yaml', 'r') as file:
-    dictMeterConst = yaml.load(file, Loader=yaml.FullLoader)
-
-with open(dir_path+'MeterInst.yaml', 'r') as file:
-    dictMeterInst = yaml.load(file, Loader=yaml.FullLoader)
+dictBatConst = {}
+dictMeterConst = {}
+dictInverterConst = {}
 
 
 def main():
@@ -40,19 +28,26 @@ def main():
     print("begin at: " + str(a))
     # print ("Current Time: " + datetime.datetime.now().strftime('%H:%M:%S'))
 
-    # Open a new Modbus connection to the SE inverter (e.g. Symo SE7K)
     modbusClient = ModbusClient("192.168.178.10", port=1502, timeout=10)
     modbusClient.connect()
 
-    # getRegisterData(modbusClient, dictTest)
+    openRegisterFiles()
 
     getRegisterData(modbusClient, dictBatConst)
     getRegisterData(modbusClient, dictMeterConst)
     getRegisterData(modbusClient, dictInverterConst)
 
+    intToFloatBySF(dictBatConst)
+    intToFloatBySF(dictMeterConst)
+    intToFloatBySF(dictInverterConst)
+
     getRegisterData(modbusClient, dictBatInst)
     getRegisterData(modbusClient, dictMeterInst)
     getRegisterData(modbusClient, dictInverterInst)
+
+    intToFloatBySF(dictBatInst)
+    intToFloatBySF(dictMeterInst)
+    intToFloatBySF(dictInverterInst)
 
     test(dictBatConst)
     test(dictMeterConst)
@@ -74,14 +69,6 @@ def test(dict: dict):
               ' -  Value: ' + str(dict[name]['value']) +
               ' -  Unit: ' + str(dict[name]['unit']))
 
-    print("####### UInt32 ######### beginn")
-    for name in dict:
-        if (dict[name]['dataType'] == 'UInt32'):
-            print('Name: ' + name +
-                  ' -  Value: ' + str(dict[name]['value']) +
-                  ' -  Unit: ' + str(dict[name]['unit']))
-    print("####### UInt32 ######### end")
-
 
 def getRegisterData(modbusClient, dictRegisterObj: dict):
     # start & end of register reading
@@ -99,6 +86,9 @@ def getRegisterData(modbusClient, dictRegisterObj: dict):
     temp = modbusClient.read_holding_registers(startNum,
                                                length,
                                                unit=1)
+
+    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
     regVal = temp.registers
 
     # set the Value of the data from the register
@@ -109,7 +99,24 @@ def getRegisterData(modbusClient, dictRegisterObj: dict):
         dictRegisterObj[i]['value'] = getRegValue(regVal[start:end],
                                                   dataType)
 
+    for name in dictRegisterObj:
+        dictRegisterObj[name]['@timestamp'] = str(timestamp)
+
     return 1
+
+
+def dict2bulkjson(dict, indexStr):
+    import json
+    import uuid
+    sendDict = {}
+    for name in dict:
+        sendDict[name] = dict[name]['value']
+
+    sendDict['@timestamp'] = dict[list(dict)[0]]["@timestamp"]
+
+    yield ('{ "index" : { "_index" : "%s", "_id" : "%s"}}'
+           % (indexStr, str(uuid.uuid4())))
+    yield (json.dumps(sendDict, default=int))
 
 
 def getRegValue(bytesList: list, dataType):
@@ -155,4 +162,62 @@ def getRegValue(bytesList: list, dataType):
         return str(decoder.decode_bits())
 
 
-main()
+def intToFloatBySF(dict: dict):
+    for name in dict:
+        if (dict[name]['relate_SF_regNum'] != 'None'):
+            # search for regNum
+            for nameSF in dict:
+                if (dict[nameSF]['regNum'] == dict[name]['relate_SF_regNum']):
+                    dict[name]['value'] = dict[name]['value'] * \
+                        10 ** dict[nameSF]['value']
+
+
+def openRegisterFiles():
+    dir_path = os.path.dirname(os.path.realpath(__file__))+'/res/register/'
+
+    global dictBatConst
+    global dictInverterConst
+    global dictMeterConst
+    global dictBatInst
+    global dictInverterInst
+    global dictMeterInst
+
+    # import files
+    with open(dir_path+'BatConst.yaml', 'r') as file:
+        dictBatConst = yaml.load(file, Loader=yaml.FullLoader)
+
+    with open(dir_path+'BatInst.yaml', 'r') as file:
+        dictBatInst = yaml.load(file, Loader=yaml.FullLoader)
+
+    with open(dir_path+'InvInst.yaml', 'r') as file:
+        dictInverterInst = yaml.load(file, Loader=yaml.FullLoader)
+
+    with open(dir_path+'InvConst.yaml', 'r') as file:
+        dictInverterConst = yaml.load(file, Loader=yaml.FullLoader)
+
+    with open(dir_path+'MeterConst.yaml', 'r') as file:
+        dictMeterConst = yaml.load(file, Loader=yaml.FullLoader)
+
+    with open(dir_path+'MeterInst.yaml', 'r') as file:
+        dictMeterInst = yaml.load(file, Loader=yaml.FullLoader)
+
+
+def send2es():
+    es = Elasticsearch([{
+        'host': os.getenv('IPV4_ELASTICSEARCH'),
+        'port': int(os.getenv('PORT_ELASTIC_1'))
+        }])
+
+    es.bulk(dict2bulkjson(dictBatConst, 'solar'))
+    es.bulk(dict2bulkjson(dictMeterConst, 'solar'))
+    es.bulk(dict2bulkjson(dictInverterConst, 'solar'))
+    es.bulk(dict2bulkjson(dictBatInst, 'solar'))
+    es.bulk(dict2bulkjson(dictMeterInst, 'solar'))
+    es.bulk(dict2bulkjson(dictInverterInst, 'solar'))
+
+
+if __name__ == "__main__":
+
+    while True:
+        main()
+        send2es()
