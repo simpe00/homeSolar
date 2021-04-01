@@ -136,3 +136,73 @@ I_AC_Voltage_SF:
   length: 1
   regNum: 40082
   unit: ''
+
+
+I_AC_Energy_WH_SF:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 40095
+  unit: ''
+I_DC_Current:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 40096
+  unit: 'A'
+I_DC_Current_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40097
+  unit: ''
+I_DC_Voltage:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 40098
+  unit: 'V'
+I_DC_Voltage_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40099
+  unit: ''
+I_DC_Power:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40100
+  unit: 'W'
+I_DC_Power_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40101
+  unit: ''
+I_Temp_Sink:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40103
+  unit: '°C'
+I_Temp_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40106
+  unit: ''
+
+I_Status:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 40107
+  unit: ''
+I_Status_Vendor:
+  value: null
+  dataType: UInt16
+  length: 1
+  regNum: 40108
+  unit: ''
+

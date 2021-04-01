@@ -233,3 +233,240 @@ M_AC_PF_SF:
   length: 1
   regNum: 40225
   unit: 'SF'
+
+
+# Accumulated Energy
+# Real Energy
+M_Exported:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40226
+  unit: 'Wh'
+M_Exported_A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40228
+  unit: 'Wh'
+M_Exported_B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40230
+  unit: 'Wh'
+M_Exported_C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40232
+  unit: 'Wh'
+
+M_Imported:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40234
+  unit: 'Wh'
+M_Imported_A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40236
+  unit: 'Wh'
+M_Imported_B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40238
+  unit: 'Wh'
+M_Imported_C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40240
+  unit: 'Wh'
+M_Energy_W_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40243
+  unit: ''
+
+
+
+# Apparent Energy
+M_Exported_VA:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40243
+  unit: 'VAh'
+M_Exported_VA_A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40245
+  unit: 'VAh'
+M_Exported_VA_B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40247
+  unit: 'VAh'
+M_Exported_VA_C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40249
+  unit: 'VAh'
+
+M_Imported_VA:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40251
+  unit: 'VAh'
+M_Imported_VA_A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40253
+  unit: 'VAh'
+M_Imported_VA_B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40255
+  unit: 'VAh'
+M_Imported_VA_C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40257
+  unit: 'VAh'
+M_Energy_VA_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40259
+  unit: ''
+
+
+
+# Reactive Energy
+M_Imported_VARh_Q1:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40260
+  unit: 'VARh'
+M_Imported_VARh_Q1A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40262
+  unit: 'VARh'
+M_Imported_VARh_Q1B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40264
+  unit: 'VARh'
+M_Imported_VARh_Q1C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40266
+  unit: 'VARh'
+M_Imported_VARh_Q2:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40268
+  unit: 'VARh'
+M_Imported_VARh_Q2A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40270
+  unit: 'VARh'
+M_Imported_VARh_Q2B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40272
+  unit: 'VARh'
+M_Imported_VARh_Q2C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40274
+  unit: 'VARh'
+
+
+
+M_Exported_VARh_Q3:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40276
+  unit: 'VARh'
+M_Exported_VARh_Q3A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40278
+  unit: 'VARh'
+M_Exported_VARh_Q3B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40280
+  unit: 'VARh'
+M_Exported_VARh_Q3C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40282
+  unit: 'VARh'
+M_Exported_VARh_Q4:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40284
+  unit: 'VARh'
+M_Exported_VARh_Q4A:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40286
+  unit: 'VARh'
+M_Exported_VARh_Q4B:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40288
+  unit: 'VARh'
+M_Exported_VARh_Q4C:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40290
+  unit: 'VARh'
+
+
+M_Energy_VAR_SF:
+  value: null
+  dataType: Int16
+  length: 1
+  regNum: 40292
+  unit: ''
+
+M_Events:
+  value: null
+  dataType: UInt32
+  length: 2
+  regNum: 40293
+  unit: 'Flags'
+

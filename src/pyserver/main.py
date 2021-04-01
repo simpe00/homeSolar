@@ -74,6 +74,14 @@ def test(dict: dict):
               ' -  Value: ' + str(dict[name]['value']) +
               ' -  Unit: ' + str(dict[name]['unit']))
 
+    print("####### UInt32 ######### beginn")
+    for name in dict:
+        if (dict[name]['dataType'] == 'UInt32'):
+            print('Name: ' + name +
+                  ' -  Value: ' + str(dict[name]['value']) +
+                  ' -  Unit: ' + str(dict[name]['unit']))
+    print("####### UInt32 ######### end")
+
 
 def getRegisterData(modbusClient, dictRegisterObj: dict):
     # start & end of register reading
@@ -106,7 +114,7 @@ def getRegisterData(modbusClient, dictRegisterObj: dict):
 
 def getRegValue(bytesList: list, dataType):
 
-    if (dataType in ['acc32']):
+    if (dataType in ['acc32', 'UInt32']):
         decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
                                                      byteorder=Endian.Big,
                                                      wordorder=Endian.Big)
