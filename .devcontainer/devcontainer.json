@@ -31,6 +31,20 @@
 		"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
 		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
 		"python.linting.pycodestyleEnabled": true,
+		"python.linting.pylintArgs": [
+			"--max-line-length=119",
+			"--include-naming-hint", "y",
+			"--disable", "C0325",
+			"--disable", "C0116",
+			// "--errors-only"  // Only for quick and dirty
+			// for linting : https://code.visualstudio.com/docs/python/linting
+		],		
+		"python.formatting.autopep8Args": [
+			"--max-line-length=119"
+		],
+		"python.linting.pycodestyleArgs": [
+			"--max-line-length=119"
+		],
 		"cSpell.allowCompoundWords": true,
 		"cSpell.diagnosticLevel": "Hint"
 	},
@@ -43,7 +57,8 @@
 		"ms-azuretools.vscode-docker",
 		"ms-toolsai.jupyter",
 		"eamodio.gitlens",
-		"42crunch.vscode-openapi"
+		"42crunch.vscode-openapi",
+		"njpwerner.autodocstring"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

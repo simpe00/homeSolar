@@ -80,3 +80,7 @@ https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslese
 ----
 docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml up --build --force-recreate -d
 ----
+
+
+USB storage: 
+`/srv/dev-disk-by-uuid-f8f8ba1c-7dfd-45ff-b8dc-730b576f4344`

@@ -1,18 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Communication between RPi and a SolarEdge SE7K Inverter with Battery and a meter.
+
+Testenviroment
+"""
 
 # general imports
 import datetime
 
 # imports for Modbus
+import os
+import logging
+import json
+import uuid
+import yaml
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
-from pymodbus.compat import iteritems
 from elasticsearch import Elasticsearch
-import yaml
-import os
-import logging
+
 
 # looging for development
 logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)s'
@@ -22,218 +29,195 @@ logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)s'
                     level=logging.INFO)
 
 
-dictBatInst = {}
-dictMeterInst = {}
-dictInverterInst = {}
+class Modbus2Elastic:
+    """
+    Collect the Data from Modbus TCP and send it to an elasticsearch.
+    """
+    def __init__(self):
+        # .env later
+        self.__index_name = 'solar'
 
-dictBatConst = {}
-dictMeterConst = {}
-dictInverterConst = {}
-loaded = False
+        self.dict_bat_inst = {}
+        self.dict_meter_inst = {}
+        self.dict_inverter_inst = {}
 
+        self.dict_bat_const = {}
+        self.dict_meter_const = {}
+        self.dict_inverter_const = {}
+        self.loaded = False
 
-def main():
-    a = datetime.datetime.now()  # start measuring
+        self.__open_register_files()
 
-    modbusClient = ModbusClient("192.168.178.10", port=1502, timeout=10)
-    modbusClient.connect()
+        self.dict_all = [
+            self.dict_bat_inst, self.dict_meter_inst, self.dict_inverter_inst,
+            self.dict_bat_const, self.dict_meter_const, self.dict_inverter_const
+            ]
 
-    openRegisterFiles()
+        self.__es = Elasticsearch([{
+            'host': os.getenv('IPV4_ELASTICSEARCH'),
+            'port': int(os.getenv('PORT_ELASTIC_1'))
+            }])
 
-    global loaded
-    loaded = False
-    try:
-        getRegisterData(modbusClient, dictBatConst)
-        getRegisterData(modbusClient, dictMeterConst)
-        getRegisterData(modbusClient, dictInverterConst)
-        getRegisterData(modbusClient, dictBatInst)
-        getRegisterData(modbusClient, dictMeterInst)
-        getRegisterData(modbusClient, dictInverterInst)
-        loaded = True
-    except Exception:
-        logging.info("getRegisterData - register was not loaded")
+    def __open_register_files(self):
+        dir_path = os.path.dirname(os.path.realpath(__file__))+'/res/register/'
 
-    modbusClient.close()
+        # import files
+        with open(dir_path+'BatConst.yaml', 'r') as file:
+            self.dict_bat_const = yaml.load(file, Loader=yaml.FullLoader)
 
-    if (loaded):
-        intToFloatBySF(dictBatConst)
-        intToFloatBySF(dictMeterConst)
-        intToFloatBySF(dictInverterConst)
-        intToFloatBySF(dictBatInst)
-        intToFloatBySF(dictMeterInst)
-        intToFloatBySF(dictInverterInst)
+        with open(dir_path+'BatInst.yaml', 'r') as file:
+            self.dict_bat_inst = yaml.load(file, Loader=yaml.FullLoader)
 
-        send2es()
+        with open(dir_path+'InvInst.yaml', 'r') as file:
+            self.dict_inverter_inst = yaml.load(file, Loader=yaml.FullLoader)
 
-    # test(dictBatConst)
-    # test(dictMeterConst)
-    # test(dictInverterConst)
-    # test(dictBatInst)
-    # test(dictMeterInst)
-    # test(dictInverterInst)
+        with open(dir_path+'InvConst.yaml', 'r') as file:
+            self.dict_inverter_const = yaml.load(file, Loader=yaml.FullLoader)
 
-    b = datetime.datetime.now()  # start measuring
-    logging.info("execution :  " + str(b-a))
+        with open(dir_path+'MeterConst.yaml', 'r') as file:
+            self.dict_meter_const = yaml.load(file, Loader=yaml.FullLoader)
 
+        with open(dir_path+'MeterInst.yaml', 'r') as file:
+            self.dict_meter_inst = yaml.load(file, Loader=yaml.FullLoader)
 
-def test(dict: dict):
-    for name in dict:
-        print('Name: ' + name +
-              ' -  Value: ' + str(dict[name]['value']) +
-              ' -  Unit: ' + str(dict[name]['unit']))
+    def main(self):
+        time_start = datetime.datetime.now()  # start measuring
 
+        modbus_client = ModbusClient("192.168.178.10", port=1502, timeout=10)
+        modbus_client.connect()
 
-def getRegisterData(modbusClient, dictRegisterObj: dict):
-    # start & end of register reading
-    key_min = min(dictRegisterObj.keys(),
-                  key=(lambda k: dictRegisterObj[k]['regNum']))
-    key_max = max(dictRegisterObj.keys(),
-                  key=(lambda k: dictRegisterObj[k]['regNum']))
+        loaded = False
+        try:
+            for i_dict in self.dict_all:
+                self.__get_register_data(modbus_client, i_dict)
 
-    startNum = dictRegisterObj[key_min]['regNum']
-    length = dictRegisterObj[key_max]['regNum'] \
-        + dictRegisterObj[key_max]['length'] \
-        - startNum
+            loaded = True
+        except Exception as exce:
+            logging.exception(exce)
+            logging.info("getRegisterData - register was not loaded")
 
-    # read register
-    try:
-        temp = modbusClient.read_holding_registers(
-            startNum,
-            length,
-            unit=1)
-    except Exception:
-        logging.error("Modbus connection disabled - retry later")
+        modbus_client.close()
 
-    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        if (loaded):
+            for i_dict in self.dict_all:
+                self.__int_2_float_by_sf(i_dict)
 
-    regVal = temp.registers
+            self.__send2es(self.dict_all)
 
-    # set the Value of the data from the register
-    for i in dictRegisterObj:
-        start = (dictRegisterObj[i]['regNum'] - startNum)
-        end = (start + dictRegisterObj[i]['length'])
-        dataType = dictRegisterObj[i]['dataType']
-        dictRegisterObj[i]['value'] = getRegValue(regVal[start:end],
-                                                  dataType)
+        time_end = datetime.datetime.now()  # start measuring
+        time_delta = time_end-time_start
+        logging.info("execution :  %s", str(time_delta))
 
-    for name in dictRegisterObj:
-        dictRegisterObj[name]['@timestamp'] = str(timestamp)
+    def __get_register_data(self, modbus_client_, dict_: dict):
+        # start & end of register reading
+        key_min = min(dict_.keys(), key=(lambda k: dict_[k]['regNum']))
+        key_max = max(dict_.keys(), key=(lambda k: dict_[k]['regNum']))
 
-    return 1
+        start_mum = dict_[key_min]['regNum']
+        length = dict_[key_max]['regNum'] + dict_[key_max]['length'] - start_mum
 
+        # read register
+        try:
+            temp = modbus_client_.read_holding_registers(
+                start_mum,
+                length,
+                unit=1)
+        except Exception:
+            logging.error("Modbus connection disabled - retry later")
 
-def dict2bulkjson(dict, indexStr):
-    import json
-    import uuid
-    sendDict = {}
-    for name in dict:
-        sendDict[name] = dict[name]['value']
+        timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-    sendDict['@timestamp'] = dict[list(dict)[0]]["@timestamp"]
+        reg_val = temp.registers
 
-    yield ('{ "index" : { "_index" : "%s", "_id" : "%s"}}'
-           % (indexStr, str(uuid.uuid4())))
-    yield (json.dumps(sendDict, default=int))
+        # set the Value of the data from the register
+        for i in dict_:
+            start = (dict_[i]['regNum'] - start_mum)
+            end = (start + dict_[i]['length'])
+            data_type = dict_[i]['dataType']
+            dict_[i]['value'] = self.__get_reg_value(reg_val[start:end], data_type)
 
+        for name in dict_:
+            dict_[name]['@timestamp'] = str(timestamp)
 
-def getRegValue(bytesList: list, dataType):
+        return 1
 
-    if (dataType in ['acc32', 'UInt32']):
-        decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
-                                                     byteorder=Endian.Big,
-                                                     wordorder=Endian.Big)
-    elif (dataType in ['String8', 'String16', 'String32']):
-        decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
-                                                     byteorder=Endian.Little,
-                                                     wordorder=Endian.Little)
-    else:
-        decoder = BinaryPayloadDecoder.fromRegisters(bytesList,
-                                                     byteorder=Endian.Big,
-                                                     wordorder=Endian.Little)
+    def __dict2bulkjson(self, dict_, index_str):
+        i_ac_power_ = None
+        m_ac_power_ = None
 
-    if(dataType in ['String8', 'String16', 'String32']):
-        return str(decoder.decode_string(16).decode('utf-8'))
+        for i_dict in dict_:
+            send_dict = {}
+            for name in i_dict:
+                send_dict[name] = i_dict[name]['value']
 
-    elif (dataType == 'Int16'):
-        return decoder.decode_16bit_int()
+                # add calculations for data
+                if name == 'I_AC_Power':
+                    i_ac_power_ = i_dict[name]['value']
 
-    elif (dataType == 'UInt16'):
-        return decoder.decode_16bit_uint()
+                if name == 'M_AC_Power':
+                    m_ac_power_ = i_dict[name]['value']
 
-    elif (dataType == 'Int32'):
-        return decoder.decode_32bit_int()
+            if (m_ac_power_ is not None) & (i_ac_power_ is not None):
+                send_dict['calc_consumption_power'] = i_ac_power_ - m_ac_power_
 
-    elif (dataType in ['UInt32', 'acc32']):
-        return decoder.decode_32bit_uint()
+            send_dict['@timestamp'] = i_dict[list(i_dict)[0]]["@timestamp"]
 
-    elif (dataType == 'Float32'):
-        return decoder.decode_32bit_float()
+            yield ('{ "index" : { "_index" : "%s", "_id" : "%s"}}'
+                   % (index_str, str(uuid.uuid4())))
+            yield (json.dumps(send_dict, default=int))
 
-    elif (dataType == 'UInt64'):
-        return decoder.decode_64bit_uint()
+    def __get_reg_value(self, bytes_list: list, data_type):
 
-    else:
-        print('missing !!!!!!!!!!!!!!!!!!!!!!!!!!')
-        print(dataType)
-        print(bytesList)
-        return str(decoder.decode_bits())
+        if(data_type in ['acc32', 'UInt32']):
+            decoder = BinaryPayloadDecoder.fromRegisters(
+                bytes_list, byteorder=Endian.Big, wordorder=Endian.Big)
+        elif (data_type in ['String8', 'String16', 'String32']):
+            decoder = BinaryPayloadDecoder.fromRegisters(
+                bytes_list, byteorder=Endian.Little, wordorder=Endian.Little)
+        else:
+            decoder = BinaryPayloadDecoder.fromRegisters(
+                bytes_list, byteorder=Endian.Big, wordorder=Endian.Little)
 
+        if(data_type in ['String8', 'String16', 'String32']):
+            return str(decoder.decode_string(16).decode('utf-8'))
 
-def intToFloatBySF(dict: dict):
-    for name in dict:
-        if (dict[name]['relate_SF_regNum'] != 'None'):
-            # search for regNum
-            for nameSF in dict:
-                if (dict[nameSF]['regNum'] == dict[name]['relate_SF_regNum']):
-                    dict[name]['value'] = dict[name]['value'] * \
-                        10 ** dict[nameSF]['value']
+        elif data_type == 'Int16':
+            return decoder.decode_16bit_int()
 
+        elif data_type == 'UInt16':
+            return decoder.decode_16bit_uint()
 
-def openRegisterFiles():
-    dir_path = os.path.dirname(os.path.realpath(__file__))+'/res/register/'
+        elif data_type == 'Int32':
+            return decoder.decode_32bit_int()
 
-    global dictBatConst
-    global dictInverterConst
-    global dictMeterConst
-    global dictBatInst
-    global dictInverterInst
-    global dictMeterInst
+        elif data_type in ['UInt32', 'acc32']:
+            return decoder.decode_32bit_uint()
 
-    # import files
-    with open(dir_path+'BatConst.yaml', 'r') as file:
-        dictBatConst = yaml.load(file, Loader=yaml.FullLoader)
+        elif data_type == 'Float32':
+            return decoder.decode_32bit_float()
 
-    with open(dir_path+'BatInst.yaml', 'r') as file:
-        dictBatInst = yaml.load(file, Loader=yaml.FullLoader)
+        elif data_type == 'UInt64':
+            return decoder.decode_64bit_uint()
 
-    with open(dir_path+'InvInst.yaml', 'r') as file:
-        dictInverterInst = yaml.load(file, Loader=yaml.FullLoader)
+        else:
+            logging.info('missing: %s', data_type)
+            return str(decoder.decode_bits())
 
-    with open(dir_path+'InvConst.yaml', 'r') as file:
-        dictInverterConst = yaml.load(file, Loader=yaml.FullLoader)
+    def __int_2_float_by_sf(self, dict_: dict):
+        for name in dict_:
+            if(dict_[name]['relate_SF_regNum'] != 'None'):
+                # search for regNum
+                for name_sf in dict_:
+                    if (dict_[name_sf]['regNum'] == dict_[name]['relate_SF_regNum']):
+                        dict_[name]['value'] = dict_[name]['value'] * \
+                            10 ** dict_[name_sf]['value']
 
-    with open(dir_path+'MeterConst.yaml', 'r') as file:
-        dictMeterConst = yaml.load(file, Loader=yaml.FullLoader)
-
-    with open(dir_path+'MeterInst.yaml', 'r') as file:
-        dictMeterInst = yaml.load(file, Loader=yaml.FullLoader)
-
-
-def send2es():
-    es = Elasticsearch([{
-        'host': os.getenv('IPV4_ELASTICSEARCH'),
-        'port': int(os.getenv('PORT_ELASTIC_1'))
-        }])
-
-    es.bulk(dict2bulkjson(dictBatConst, 'solar'))
-    es.bulk(dict2bulkjson(dictMeterConst, 'solar'))
-    es.bulk(dict2bulkjson(dictInverterConst, 'solar'))
-    es.bulk(dict2bulkjson(dictBatInst, 'solar'))
-    es.bulk(dict2bulkjson(dictMeterInst, 'solar'))
-    es.bulk(dict2bulkjson(dictInverterInst, 'solar'))
+    def __send2es(self, dict_all_):
+        self.__es.bulk(self.__dict2bulkjson(dict_all_, self.__index_name))
 
 
 if __name__ == "__main__":
+    mod_2_elastic = Modbus2Elastic()
 
     while True:
-        main()        
+        mod_2_elastic.main()
