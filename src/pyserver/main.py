@@ -10,6 +10,7 @@ Testenviroment
 import datetime
 
 # imports for Modbus
+import time
 import os
 import logging
 import json
@@ -83,7 +84,7 @@ class Modbus2Elastic:
     def main(self):
         time_start = datetime.datetime.now()  # start measuring
 
-        modbus_client = ModbusClient("192.168.178.10", port=1502, timeout=10)
+        modbus_client = ModbusClient("192.168.178.10", port=1502, timeout=5)
         modbus_client.connect()
 
         loaded = False
@@ -116,28 +117,36 @@ class Modbus2Elastic:
         start_mum = dict_[key_min]['regNum']
         length = dict_[key_max]['regNum'] + dict_[key_max]['length'] - start_mum
 
+        time.sleep(400/1000)
         # read register
         try:
             temp = modbus_client_.read_holding_registers(
                 start_mum,
                 length,
                 unit=1)
+            logging.info("Modbus was ok with .read_holding_registers")
+            logging.info("startnummer of dict: %s", start_mum)
+            reg_val = temp.registers
         except Exception:
             logging.error("Modbus connection disabled - retry later")
+            logging.info("startnummer with failer of dict: %s", start_mum)
+            reg_val = [0] * length
+            
 
         timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-        reg_val = temp.registers
+        try:
+            # set the Value of the data from the register
+            for i in dict_:
+                start = (dict_[i]['regNum'] - start_mum)
+                end = (start + dict_[i]['length'])
+                data_type = dict_[i]['dataType']
+                dict_[i]['value'] = self.__get_reg_value(reg_val[start:end], data_type)
 
-        # set the Value of the data from the register
-        for i in dict_:
-            start = (dict_[i]['regNum'] - start_mum)
-            end = (start + dict_[i]['length'])
-            data_type = dict_[i]['dataType']
-            dict_[i]['value'] = self.__get_reg_value(reg_val[start:end], data_type)
-
-        for name in dict_:
-            dict_[name]['@timestamp'] = str(timestamp)
+            for name in dict_:
+                dict_[name]['@timestamp'] = str(timestamp)
+        except Exception as exce:
+            logging.exception(exce)
 
         return 1
 

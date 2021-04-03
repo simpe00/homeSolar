@@ -1,6 +1,10 @@
 version: '3.7'
 
 services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERS_ARM}
+
   kibana:
     container_name: kibana
     image: jamesgarside/kibana:${KIBANA_VERS}

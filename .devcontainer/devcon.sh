@@ -19,6 +19,7 @@ apt install -y openssh-server
 if test -f "${KEY_PRO_FILE}"; then
     # key already exist
     cp "$KEY_PRO_FILE" "${KEY_FILE}"
+    cp "$KEY_PRO_FILE.pub" "${KEY_FILE}.pub"
     echo "there is already a key"
 else
     # key is needed to creat

@@ -82,6 +82,10 @@ services:
 volumes:
   dataSolar01:
     driver: local
+    driver_opts:
+      o: bind
+      type: volume
+      device: /mnt/usb1/storagehome/
 
 networks:
   backend:

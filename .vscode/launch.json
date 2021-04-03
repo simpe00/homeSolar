@@ -3,13 +3,28 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
+    "configurations": [    
         {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Prod Remote Attach",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+                "host": "${env:IPV4_PROD_PYTHON_SERVER}",
+                "port": "${env:PORT_DEV_REMOTE_DEBUG}"
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}/src/pyserver",
+                    "remoteRoot": "."
+                }
+            ]
         }
     ]
 }

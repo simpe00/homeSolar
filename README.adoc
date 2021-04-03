@@ -78,9 +78,57 @@ https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslese
 .add local bind-mounts. Makes Hot-deployment possible
 [source, bash]
 ----
-docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml up --build --force-recreate -d
+docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml -f ./docker-compose.arm.yml -f ./docker-compose.prod.yml up --build --force-recreate -d
 ----
 
 
 USB storage: 
 `/srv/dev-disk-by-uuid-f8f8ba1c-7dfd-45ff-b8dc-730b576f4344`
+
+cd /srv/dev-disk-by-uuid-f8f8ba1c-7dfd-45ff-b8dc-730b576f4344
+
+rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.3:/mnt/usb1/homeassi/  --delete
+
+
+https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket[add group]
+
+==add USB device
+
+=== Additional USB Data Storage
+
+. Find out the UUID of the USB Storage
++
+[source, bash]
+----
+sudo blkid
+----
++
+. Make a directory for the USB Storage
++
+[source, bash]
+----
+sudo mkdir /mnt/usb1
+----
+
++
+. Editing "fstab" file for auto-mounting the USB Storage
++
+[source, bash]
+----
+sudo nano /etc/fstab
+----
++
+adding the follow line in the file (with your UUID)
++
+[source, bash]
+----
+UUID="f8f8ba1c-7dfd-45ff-b8dc-730b576f4344" /mnt/usb ext4 defaults,auto,users,rw,nofail 0 0
+----
++
+. read fstab with
++
+[source, bash]
+----
+sudo mount -a
+----
++
