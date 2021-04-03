@@ -54,10 +54,20 @@ class Modbus2Elastic:
             self.dict_bat_const, self.dict_meter_const, self.dict_inverter_const
             ]
 
+        self.dict_all_inst_num = 3
+        self.dict_all_const_num = 3
+
         self.__es = Elasticsearch([{
             'host': os.getenv('IPV4_ELASTICSEARCH'),
             'port': int(os.getenv('PORT_ELASTIC_1'))
             }])
+
+        self.i_ac_power_ = None
+        self.m_ac_power_ = None
+        self.temp_timestamp_m = 0
+        self.temp_timestamp_i = 1
+
+        self.read_count = 0
 
     def __open_register_files(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))+'/res/register/'
@@ -84,15 +94,34 @@ class Modbus2Elastic:
     def main(self):
         time_start = datetime.datetime.now()  # start measuring
 
-        modbus_client = ModbusClient("192.168.178.10", port=1502, timeout=5)
+        modbus_client = ModbusClient("192.168.178.10", port=1502, timeout=1)
         modbus_client.connect()
 
         loaded = False
+        self.i_ac_power_ = None
+        self.m_ac_power_ = None
+
         try:
+            list_count = 0
             for i_dict in self.dict_all:
-                self.__get_register_data(modbus_client, i_dict)
+                if (list_count < self.dict_all_inst_num) or (self.read_count == 40):
+                    err_no = self.__get_register_data(modbus_client, i_dict)
+                    if err_no != -1:
+                        self.__int_2_float_by_sf(i_dict)
+
+                        if list_count == 1:
+                            self.m_ac_power_ = i_dict['M_AC_Power']['value']
+
+                        if list_count == 2:
+                            self.i_ac_power_ = i_dict['I_AC_Power']['value']
+
+                list_count = list_count + 1
 
             loaded = True
+            self.read_count = self.read_count + 1
+            if self.read_count >= 40:
+                self.read_count = 0
+
         except Exception as exce:
             logging.exception(exce)
             logging.info("getRegisterData - register was not loaded")
@@ -100,9 +129,6 @@ class Modbus2Elastic:
         modbus_client.close()
 
         if (loaded):
-            for i_dict in self.dict_all:
-                self.__int_2_float_by_sf(i_dict)
-
             self.__send2es(self.dict_all)
 
         time_end = datetime.datetime.now()  # start measuring
@@ -131,7 +157,7 @@ class Modbus2Elastic:
             logging.error("Modbus connection disabled - retry later")
             logging.info("startnummer with failer of dict: %s", start_mum)
             reg_val = [0] * length
-            
+            return -1
 
         timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
@@ -151,29 +177,30 @@ class Modbus2Elastic:
         return 1
 
     def __dict2bulkjson(self, dict_, index_str):
-        i_ac_power_ = None
-        m_ac_power_ = None
 
-        for i_dict in dict_:
-            send_dict = {}
-            for name in i_dict:
-                send_dict[name] = i_dict[name]['value']
+        send_dict = {}
+        for name in dict_:
+            send_dict[name] = dict_[name]['value']
 
-                # add calculations for data
-                if name == 'I_AC_Power':
-                    i_ac_power_ = i_dict[name]['value']
+            # add calculations for data
+            if name == 'M_AC_Power':
+                self.m_ac_power_ = dict_[name]['value']
 
-                if name == 'M_AC_Power':
-                    m_ac_power_ = i_dict[name]['value']
+            if name == 'I_AC_Power':
+                self.i_ac_power_ = dict_[name]['value']
 
-            if (m_ac_power_ is not None) & (i_ac_power_ is not None):
-                send_dict['calc_consumption_power'] = i_ac_power_ - m_ac_power_
+        if ((self.m_ac_power_ is not None) & (self.i_ac_power_ is not None)):
+            send_dict['calc_consumption_power'] = self.i_ac_power_ - self.m_ac_power_
 
-            send_dict['@timestamp'] = i_dict[list(i_dict)[0]]["@timestamp"]
+        try:
+            send_dict['@timestamp'] = dict_[list(dict_)[0]]["@timestamp"]
+        except Exception as exce:
+            logging.exception(exce)
+            logging.info("missing timestamp")
 
-            yield ('{ "index" : { "_index" : "%s", "_id" : "%s"}}'
-                   % (index_str, str(uuid.uuid4())))
-            yield (json.dumps(send_dict, default=int))
+        yield ('{ "index" : { "_index" : "%s", "_id" : "%s"}}'
+               % (index_str, str(uuid.uuid4())))
+        yield (json.dumps(send_dict, default=int))
 
     def __get_reg_value(self, bytes_list: list, data_type):
 
@@ -222,7 +249,8 @@ class Modbus2Elastic:
                             10 ** dict_[name_sf]['value']
 
     def __send2es(self, dict_all_):
-        self.__es.bulk(self.__dict2bulkjson(dict_all_, self.__index_name))
+        for i in dict_all_:
+            self.__es.bulk(self.__dict2bulkjson(i, self.__index_name))
 
 
 if __name__ == "__main__":
