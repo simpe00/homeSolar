@@ -128,7 +128,7 @@ class Modbus2Elastic:
 
             self.read_count = self.read_count + 1
 
-        except Exception as exce:
+        except KeyError as exce:
             logging.exception(exce)
             logging.info("getRegisterData - register was not loaded")
 
@@ -137,7 +137,8 @@ class Modbus2Elastic:
         if (loaded):
             self.__send2es(self.dict_all)
 
-        time_end = datetime.datetime.now()  # start measuring
+        # start measuring
+        time_end = datetime.datetime.now()
         time_delta = time_end-time_start
         logging.info("execution :  %s", str(time_delta))
 
@@ -156,10 +157,9 @@ class Modbus2Elastic:
                 start_mum,
                 length,
                 unit=1)
-            logging.info("Modbus was ok with .read_holding_registers")
-            logging.info("startnummer of dict: %s", start_mum)
+            logging.info("Modbus was ok with .read_holding_registers from number%s", start_mum)
             reg_val = temp.registers
-        except Exception:
+        except ConnectionError:
             logging.error("Modbus connection disabled - retry later")
             logging.info("startnummer with failer of dict: %s", start_mum)
             reg_val = [0] * length
@@ -200,7 +200,7 @@ class Modbus2Elastic:
 
         try:
             send_dict['@timestamp'] = dict_[list(dict_)[0]]["@timestamp"]
-        except Exception as exce:
+        except KeyError as exce:
             logging.exception(exce)
             logging.info("missing timestamp")
 
