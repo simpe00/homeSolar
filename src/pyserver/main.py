@@ -30,6 +30,21 @@ logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)s'
                     level=logging.INFO)
 
 
+class PT1Calc:
+    """
+    Pt1 filter
+    """
+    def __init__(self, k_gain, time_constant, initial_condition):
+        self.time_constant = time_constant
+        self.k_gain = k_gain
+        self.x_out = initial_condition
+
+    def clac(self, u_input, step_size):
+        x_dot = step_size * (self.k_gain * u_input - self.x_out) / self.time_constant
+        self.x_out = self.x_out + x_dot
+        return self.x_out
+
+
 class Modbus2Elastic:
     """
     Collect the Data from Modbus TCP and send it to an elasticsearch.
@@ -72,6 +87,11 @@ class Modbus2Elastic:
         self.temp_timestamp_i = 1
 
         self.read_count = 0
+        self.rc_limit = 50
+
+        self.filter_1 = PT1Calc(k_gain=1, time_constant=10, initial_condition=0)
+        self.calc_time_old = datetime.datetime.now()
+        self.calc_time_new = datetime.datetime.now()
 
     def __open_register_files(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))+'/res/register/'
@@ -108,7 +128,7 @@ class Modbus2Elastic:
         try:
             list_count = 0
             for i_dict in self.dict_all:
-                if (list_count < self.dict_all_inst_num) or (self.read_count == 40):
+                if (list_count < self.dict_all_inst_num) or (self.read_count == self.rc_limit):
                     err_no = self.__get_register_data(modbus_client, i_dict)
                     if err_no != -1:
                         self.__int_2_float_by_sf(i_dict)
@@ -123,7 +143,7 @@ class Modbus2Elastic:
 
             loaded = True
 
-            if self.read_count >= 40:
+            if self.read_count >= self.rc_limit:
                 self.read_count = 0
 
             self.read_count = self.read_count + 1
@@ -196,7 +216,12 @@ class Modbus2Elastic:
                 self.i_ac_power_ = dict_[name]['value']
 
         if ((self.m_ac_power_ is not None) & (self.i_ac_power_ is not None)):
-            send_dict['calc_consumption_power'] = self.i_ac_power_ - self.m_ac_power_
+            self.calc_time_new = datetime.datetime.now()
+            delta_time = self.calc_time_new - self.calc_time_old
+            delta_time = delta_time.seconds + delta_time.microseconds/(1e6)
+            consumption_unfiltered = self.i_ac_power_ - self.m_ac_power_
+            send_dict['calc_consumption_power'] = self.filter_1.clac(consumption_unfiltered, delta_time)
+            self.calc_time_old = self.calc_time_new
 
         try:
             send_dict['@timestamp'] = dict_[list(dict_)[0]]["@timestamp"]
