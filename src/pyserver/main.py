@@ -54,6 +54,10 @@ class Modbus2Elastic:
             self.dict_bat_const, self.dict_meter_const, self.dict_inverter_const
             ]
 
+        for dict_ in self.dict_all:
+            for name in dict_:
+                dict_[name]['@timestamp'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
         self.dict_all_inst_num = 3
         self.dict_all_const_num = 3
 
@@ -118,9 +122,11 @@ class Modbus2Elastic:
                 list_count = list_count + 1
 
             loaded = True
-            self.read_count = self.read_count + 1
+
             if self.read_count >= 40:
                 self.read_count = 0
+
+            self.read_count = self.read_count + 1
 
         except Exception as exce:
             logging.exception(exce)
