@@ -6,10 +6,7 @@ Communication between RPi and a SolarEdge SE7K Inverter with Battery and a meter
 Testenviroment
 """
 
-# general imports
 import datetime
-
-# imports for Modbus
 import time
 import os
 import logging
@@ -43,6 +40,9 @@ class PT1Calc:
         x_dot = step_size * (self.k_gain * u_input - self.x_out) / self.time_constant
         self.x_out = self.x_out + x_dot
         return self.x_out
+
+    def set_inital_condition(self, initial_condition):
+        self.x_out = initial_condition
 
 
 class Modbus2Elastic:
@@ -89,7 +89,11 @@ class Modbus2Elastic:
         self.read_count = 0
         self.rc_limit = 50
 
-        self.filter_1 = PT1Calc(k_gain=1, time_constant=10, initial_condition=0)
+        self.sleep_time = 350/1000
+
+        self.filter_1 = PT1Calc(k_gain=1, time_constant=5, initial_condition=0)
+        self.filter_2 = PT1Calc(k_gain=1, time_constant=5, initial_condition=0)
+        self.filter_init = True
         self.calc_time_old = datetime.datetime.now()
         self.calc_time_new = datetime.datetime.now()
 
@@ -170,7 +174,7 @@ class Modbus2Elastic:
         start_mum = dict_[key_min]['regNum']
         length = dict_[key_max]['regNum'] + dict_[key_max]['length'] - start_mum
 
-        time.sleep(400/1000)
+        time.sleep(self.sleep_time)
         # read register
         try:
             temp = modbus_client_.read_holding_registers(
@@ -220,7 +224,15 @@ class Modbus2Elastic:
             delta_time = self.calc_time_new - self.calc_time_old
             delta_time = delta_time.seconds + delta_time.microseconds/(1e6)
             consumption_unfiltered = self.i_ac_power_ - self.m_ac_power_
-            send_dict['calc_consumption_power'] = self.filter_1.clac(consumption_unfiltered, delta_time)
+
+            # restart with unfiltered initial condition
+            if self.filter_init is True:
+                self.filter_1.set_inital_condition(consumption_unfiltered)
+                self.filter_2.set_inital_condition(consumption_unfiltered)
+                self.filter_init = False
+
+            consumption_filtered_1 = self.filter_1.clac(consumption_unfiltered, delta_time)
+            send_dict['calc_consumption_power'] = self.filter_2.clac(consumption_filtered_1, delta_time)
             self.calc_time_old = self.calc_time_new
 
         try:
