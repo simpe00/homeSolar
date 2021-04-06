@@ -137,11 +137,11 @@ class Modbus2Elastic:
                     if err_no != -1:
                         self.__int_2_float_by_sf(i_dict)
 
-                        if list_count == 1:
-                            self.m_ac_power_ = i_dict['M_AC_Power']['value']
+                        # if list_count == 1:
+                        #     self.m_ac_power_ = i_dict['M_AC_Power']['value']
 
-                        if list_count == 2:
-                            self.i_ac_power_ = i_dict['I_AC_Power']['value']
+                        # if list_count == 2:
+                        #     self.i_ac_power_ = i_dict['I_AC_Power']['value']
 
                 list_count = list_count + 1
 
