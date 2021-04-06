@@ -103,19 +103,19 @@
           "metrics": [
             {
               "field": "I_AC_Power",
-              "hide": true,
+              "hide": false,
               "id": "1",
               "type": "avg"
             },
             {
               "field": "I_DC_Power",
-              "hide": true,
+              "hide": false,
               "id": "3",
               "type": "avg"
             },
             {
               "field": "M_AC_Power",
-              "hide": true,
+              "hide": false,
               "id": "4",
               "type": "avg"
             },
@@ -281,32 +281,7 @@
           },
           "unit": "celsius"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "Average I_Temp_Sink"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "graph": true,
-                  "legend": false,
-                  "tooltip": false
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -377,5 +352,5 @@
   "timezone": "",
   "title": "Solar_House",
   "uid": "DJUS3K_Mk",
-  "version": 9
+  "version": 2
 }
