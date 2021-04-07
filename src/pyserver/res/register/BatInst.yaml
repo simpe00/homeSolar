@@ -89,115 +89,115 @@ Status_Internal:
   regNum: 62856
   relate_SF_regNum: None
   unit: ''
-Events_Log_0:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62858
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_1:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62859
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_2:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62860
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_3:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62861
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_4:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62862
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_5:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62863
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_6:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62864
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_7:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62865
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_0:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62866
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_1:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62867
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_2:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62868
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_3:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62869
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_4:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62870
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_5:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62871
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_6:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62872
-  relate_SF_regNum: None
-  unit: ''
-Events_Log_Internal_7:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 62873
-  relate_SF_regNum: None
-  unit: ''
+# Events_Log_0:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62858
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_1:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62859
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_2:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62860
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_3:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62861
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_4:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62862
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_5:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62863
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_6:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62864
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_7:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62865
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_0:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62866
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_1:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62867
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_2:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62868
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_3:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62869
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_4:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62870
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_5:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62871
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_6:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62872
+#   relate_SF_regNum: None
+#   unit: ''
+# Events_Log_Internal_7:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 62873
+#   relate_SF_regNum: None
+#   unit: ''

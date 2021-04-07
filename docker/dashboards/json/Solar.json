@@ -20,7 +20,7 @@
   "panels": [
     {
       "datasource": "ElasticSolar",
-      "description": "Power values ",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -69,12 +69,236 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 10,
         "w": 12,
         "x": 0,
         "y": 0
       },
       "id": 2,
+      "options": {
+        "graph": {},
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltipOptions": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "7.4.0",
+      "targets": [
+        {
+          "alias": "Inverter_AC_Power",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "I_AC_Power",
+              "hide": false,
+              "id": "1",
+              "text": "lala",
+              "type": "avg"
+            }
+          ],
+          "query": "",
+          "queryType": "randomWalk",
+          "refId": "A",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "Inverter_DC_Power",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "hide": false,
+          "metrics": [
+            {
+              "field": "I_DC_Power",
+              "hide": false,
+              "id": "3",
+              "type": "avg"
+            }
+          ],
+          "query": "",
+          "queryType": "randomWalk",
+          "refId": "C",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "Consumption_Power",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "hide": false,
+          "metrics": [
+            {
+              "field": "calc_consumption_power",
+              "id": "1",
+              "type": "avg"
+            }
+          ],
+          "query": "",
+          "refId": "B",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "Meter_Power",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "hide": false,
+          "metrics": [
+            {
+              "field": "M_AC_Power",
+              "hide": false,
+              "id": "4",
+              "type": "avg"
+            }
+          ],
+          "query": "",
+          "queryType": "randomWalk",
+          "refId": "D",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "Battery_Power",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "hide": false,
+          "metrics": [
+            {
+              "field": "Instantaneous_Power",
+              "id": "6",
+              "type": "avg"
+            }
+          ],
+          "query": "",
+          "queryType": "randomWalk",
+          "refId": "E",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Power",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "ElasticSolar",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "graph": false,
+              "legend": false,
+              "tooltip": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "displayName": "Battery Lvl",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Average State_of_Energy"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "graph": true,
+                  "legend": false,
+                  "tooltip": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 8,
       "options": {
         "graph": {},
         "legend": {
@@ -102,27 +326,8 @@
           ],
           "metrics": [
             {
-              "field": "I_AC_Power",
-              "hide": false,
+              "field": "State_of_Energy",
               "id": "1",
-              "type": "avg"
-            },
-            {
-              "field": "I_DC_Power",
-              "hide": false,
-              "id": "3",
-              "type": "avg"
-            },
-            {
-              "field": "M_AC_Power",
-              "hide": false,
-              "id": "4",
-              "type": "avg"
-            },
-            {
-              "field": "calc_consumption_power",
-              "hide": false,
-              "id": "5",
               "type": "avg"
             }
           ],
@@ -132,7 +337,7 @@
           "timeField": "@timestamp"
         }
       ],
-      "title": "Power",
+      "title": "Battery",
       "type": "timeseries"
     },
     {
@@ -184,10 +389,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 10
       },
       "id": 4,
       "options": {
@@ -284,10 +489,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 12,
-        "x": 0,
-        "y": 17
+        "x": 12,
+        "y": 10
       },
       "id": 6,
       "options": {
@@ -345,12 +550,12 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Solar_House",
   "uid": "DJUS3K_Mk",
-  "version": 2
+  "version": 1
 }

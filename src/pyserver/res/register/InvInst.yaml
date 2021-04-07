@@ -232,11 +232,11 @@ I_Status:
   regNum: 40107
   relate_SF_regNum: None
   unit: ''
-I_Status_Vendor:
-  value: null
-  dataType: UInt16
-  length: 1
-  regNum: 40108
-  relate_SF_regNum: None
-  unit: ''
+# I_Status_Vendor:
+#   value: null
+#   dataType: UInt16
+#   length: 1
+#   regNum: 40108
+#   relate_SF_regNum: None
+#   unit: ''
 
