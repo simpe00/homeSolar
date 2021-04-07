@@ -27,6 +27,10 @@ services:
       frontend:
         ipv4_address: ${IPV4_PROD_KIBANA}
 
+  logstash:
+    volumes:
+      - /mnt/usb1/docker:/var/lib/docker:ro
+
 networks:
   frontend:
     driver: macvlan

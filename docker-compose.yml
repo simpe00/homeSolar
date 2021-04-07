@@ -79,6 +79,25 @@ services:
       backend:
         ipv4_address: ${IPV4_PYTHON_SERVER}
 
+  logstash:
+    container_name: logstash
+    image: logstash
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.logstash
+    env_file:
+      - ./.env
+    ports:
+      - ${PORT_LOGSTASH}:${PORT_LOGSTASH}
+    depends_on: 
+      - elasticsearch
+      - kibana
+      - grafana
+      - pyserver
+    networks:
+      backend:
+        ipv4_address: ${IPV4_LOGSTASH}
+
 volumes:
   dataSolar01:
     driver: local

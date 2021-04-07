@@ -11,4 +11,14 @@ datasources:
       timeField: "@timestamp"
       esVersion: 70
       interval: null
+  - name: ElasticLogstash
+    type: elasticsearch
+    access: proxy
+    database: "dockerlogs"
+    url: http://${IPV4_ELASTICSEARCH}:${PORT_ELASTIC_1}
+    jsonData:
+      timeField: "time"
+      esVersion: 70
+      interval: null
+      logMessageField: log
 
