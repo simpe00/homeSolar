@@ -87,9 +87,9 @@ class Modbus2Elastic:
         self.temp_timestamp_i = 1
 
         self.read_count = 0
-        self.rc_limit = 50
+        self.rc_limit = 5000
 
-        self.sleep_time = 350/1000
+        self.sleep_time = 300/1000
 
         self.filter_1 = PT1Calc(k_gain=1, time_constant=5, initial_condition=0)
         self.filter_2 = PT1Calc(k_gain=1, time_constant=5, initial_condition=0)
