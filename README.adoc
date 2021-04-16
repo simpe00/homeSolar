@@ -1,98 +1,70 @@
-:toc: 
+:toc:
+:icons: font
+:experimental:
+:source-highlighter: pygments
+// :pygments-style: emacs
 
-= Set up a docker Home Assistant with Modbus to SolarEdge
+= Set up a dashboard with a Modbus communication to a SolarEdge system
 
-== Link collection
+== working with this project
 
-https://www.home-assistant.io/installation/raspberrypi[Home Assistant on Rpi with docker]
+=== initial
 
-https://github.com/binsentsu/home-assistant-solaredge-modbus[modbus rpi - home assistant]
+* https://code.visualstudio.com/download[VSC] with https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers[Remote-Containers]
 
-https://github.com/erikarenhill/solaredge-modbus-hass[Modbus SolarEdge for homeassi] from https://community.home-assistant.io/t/custom-component-solaredge-modbus-tcp/165625[Forum]
+* https://docs.docker.com/docker-for-windows/install-windows-home/[docker on Windows]
 
-https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/[ModBus Register für RESU 10h] with https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/?pageNo=8[overview - jpeg]
-
-== commands
-
-
+.https://www.ssh.com/ssh/keygen/[Copying the Public Key to the Server]
 [source, bash]
 ----
-docker run --init -d \
-  --name homeassistant \
-  --restart=unless-stopped \
-  -v /etc/localtime:/etc/localtime:ro \
-  -v /srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi:/config \
-  --network=pub_net \
-  --ip="192.168.178.4" \
-  homeassistant/raspberrypi4-homeassistant:stable
+ssh-copy-id -i ~/.ssh/id_rsa.pub user@host
 ----
 
-.give permission for rsync
-[source, bash]
-----
-chmod -R 777 ./homeassi/
-[source, bash]
-----
+[NOTE]
 
-. sync the components
-[source, bash]
-----
-rsync -r /workspaces/HomeAssiWithSolar/home-assistant-solaredge-modbus/custom_components pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/
+In the Section <<devContainer>> you can see how to go into a development container. The ``ssh-copy-id``-command is working from inside the development container. Now you can ssh from the development container to your Host/Pi/...
 
-rsync -r /workspaces/HomeAssiWithSolar/solaredge-modbus-hass/custom_components pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/
+=== basic commands
+
+.freeze python requirements
+[source, BASH]
+----
+pip freeze > docker/requirements.txt
 ----
 
-.get config file from Rpi
-[source, bash]
+.start docker container from #outside# the devContainer
+[source, CMD]
 ----
-rsync -r pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/configuration.yaml /workspaces/HomeAssiWithSolar/configuration.yaml
-----
-
-.set config file from Rpi
-[source, bash]
-----
-rsync -r /workspaces/HomeAssiWithSolar/configuration.yaml pi@192.168.178.3:/srv/dev-disk-by-uuid-0b562017-4e93-4531-8ce5-0641e6fc4fb1/homeassi/configuration.yaml
+docker-compose -f ./docker-compose.yml up --build --force-recreate -d
 ----
 
-
-
-=== python
-
-https://pypi.org/project/pyModbusTCP/[Python lib for Modbus]
-
-https://d1c96hlcey6qkb.cloudfront.net/de1543db-d336-4a89-9a35-dfb08ac7a6c6/8382056182344db2a59e2460d1c50ba8?response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27SunSpec%2520Implementation%2520Technical%2520Note%2520-%2520Version%25202.2.20210304140202457.pdf&response-content-type=application%2Fpdf&Expires=1616976000&Signature=EIHYYvHtAvQGOdSbshbYMiPL4R0SEPVzhstsEDguhg1wdkHX5KS-cCiwwN2yVM22p4cFxBGHH30fw-j6-j2qFGstSsho4xHPML5BiJ-U1D~X46BWZtGvXJ5~6zYe6mL6FbiUZh-IM92F71jGLuwaioMKChA8yLFZc7eYnXkTO7MQZ~RoT4eTgV~lkirBL6UQpOk3F7LWzNjpAWWyx301zQjnU13NwJz6i6oKoWN4I5ZnZHGlft4m-1qzxomyX2vEGmg-U3IxJdOMp~OOSUXy7aM5HxIAtJ6WcWa00QF-MCjiIbpp8n2WlM4PIAUbg2tvUUInAndx3oFuzjJsBT2Asg__&Key-Pair-Id=APKAI33AGAEAYCXFBDTA[data sheet - SolarEdge ModBus]
-
-
-=== to do
-
-write getter und setter for value etc
-
-more data from https://d1c96hlcey6qkb.cloudfront.net/de1543db-d336-4a89-9a35-dfb08ac7a6c6/8382056182344db2a59e2460d1c50ba8?response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27SunSpec%2520Implementation%2520Technical%2520Note%2520-%2520Version%25202.2.20210304140202457.pdf&response-content-type=application%2Fpdf&Expires=1617105600&Signature=Lo9BBMILIlAiwG-2JFRp-s~MoaR4HS-AU0Aqc6us0RBXKLbWowOkiQLwGnz8dsCykCoEn~Y2qK2xbHB3WCksCQdPHQ4lD44lrxsvppNSiEpmk4rN-ASrhl4uNA5o1DQDdm~l20Uhx7jNaAaTK~cIhP8yasT2cQYeVSsRwpdaQVFFAZ9HHN2Gs4OaIJVG3H7gGQmuJ~p6QEN7sLPMYFoV05vMO9GMDHhbjlVvTF7SPt-vxD7DfYhxe9GhMstqTzbd~lAdUVCLCoqxI2slSIusqm-wadH3MJmV7S6kwLowpgwtRUi-Y7FHJjyqCruyho1pv9r41BC0NJcB1EoNO6tnvQ__&Key-Pair-Id=APKAI33AGAEAYCXFBDTA[pdf] with meter 1
-
-https://www.photovoltaikforum.com/thread/137180-solaredge-setapp-version-modbus-via-tcp/?pageNo=3[optimizer Data] 
-
-https://github.com/nmakel/solaredge_modbus
-
-https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/?pageNo=8[Battery-Register]
-
-.add local bind-mounts. Makes Hot-deployment possible
-[source, bash]
+.stop docker container
+[source, BASH]
 ----
-docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml -f ./docker-compose.arm.yml -f ./docker-compose.prod.yml up --build --force-recreate -d
+docker-compose -f ./docker-compose.yml down
 ----
 
+=== devContainer
+.creat an network for the developing container if it is not existing already. (e.g. docker-compose wasn't executed before)
+[source, cmd]
+----
+docker-compose -f ./docker-compose.network.yml up
+----
 
-USB storage: 
-`/srv/dev-disk-by-uuid-f8f8ba1c-7dfd-45ff-b8dc-730b576f4344`
+.load development Container in VSC
+. kbd:[Ctrl+Shift+P] or kbd:[F1]
+. type in : ``Remote-Containers: Reopen in Container``
 
-cd /srv/dev-disk-by-uuid-f8f8ba1c-7dfd-45ff-b8dc-730b576f4344
+[IMPORTANT]
+The Extension https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers[Remote-Containers] is needed
 
-rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.3:/mnt/usb1/homeassi/  --delete
+=== overview of environment
 
-
-https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket[add group]
-
-==add USB device
+.overview of environment variables in the project
+[subs="attributes"]
+----
+include::.env[]
+----
 
 === Additional USB Data Storage
 
@@ -133,5 +105,44 @@ sudo mount -a
 ----
 +
 
-
 https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux
+
+== Link collection
+
+https://www.home-assistant.io/installation/raspberrypi[Home Assistant on Rpi with docker]
+
+https://github.com/binsentsu/home-assistant-solaredge-modbus[modbus rpi - home assistant]
+
+https://github.com/erikarenhill/solaredge-modbus-hass[Modbus SolarEdge for homeassi] from https://community.home-assistant.io/t/custom-component-solaredge-modbus-tcp/165625[Forum]
+
+https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/[ModBus Register für RESU 10h] with https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/?pageNo=8[overview - jpeg]
+
+https://www.photovoltaikforum.com/thread/137180-solaredge-setapp-version-modbus-via-tcp/?pageNo=3[optimizer Data] 
+
+https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslesen-solaredge-lg-resu-10h/?pageNo=8[Battery-Register]
+
+== commands on Raspi
+
+[source, bash]
+----
+rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.3:/mnt/usb1/homeassi/  --delete
+----
+
+.add local bind-mounts. Makes Hot-deployment possible
+[source, bash]
+----
+docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml -f ./docker-compose.arm.yml -f ./docker-compose.prod.yml up --build --force-recreate -d
+----
+
+== python
+
+https://pypi.org/project/pyModbusTCP/[Python lib for Modbus]
+
+
+== to do
+
+https://github.com/nmakel/solaredge_modbus[SolarEdge Modbus on GitHub with influxDB]
+
+
+https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket[add group]
+
