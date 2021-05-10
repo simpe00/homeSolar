@@ -7,6 +7,7 @@ pip3 install --user -r docker/requirements.txt
 SSH_FOLDER="$PWD/SSH"
 SRC_FOLDER="$PWD/src"
 KEY_FILE=~/.ssh/id_rsa
+ROOT_SSH_FOLDER=~/.ssh
 KEY_PRO_FILE="$PWD/SSH/id_rsa"
 
 
@@ -32,3 +33,5 @@ chmod 600 "${KEY_FILE}"
 
 eval "$(ssh-agent -s)"
 ssh-add
+
+rm "${ROOT_SSH_FOLDER}/known_hosts"

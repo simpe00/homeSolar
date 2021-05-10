@@ -123,9 +123,10 @@ https://www.photovoltaikforum.com/thread/120980-akkustand-per-modbus-tcp-auslese
 
 == commands on Raspi
 
+.from laptop to Raspberry pi
 [source, bash]
 ----
-rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.3:/mnt/usb1/homeassi/  --delete
+rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.3:/mnt/usb1/homeassi/ --delete --exclude "SSH"
 ----
 
 .add local bind-mounts. Makes Hot-deployment possible

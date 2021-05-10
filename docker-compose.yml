@@ -23,6 +23,7 @@ services:
     ports:
       - ${PORT_ELASTIC_1}:${PORT_ELASTIC_1}
       - ${PORT_ELASTIC_2}:${PORT_ELASTIC_2}
+    restart: always
     networks:
       backend:
         ipv4_address: ${IPV4_ELASTICSEARCH} 
@@ -36,6 +37,7 @@ services:
       - ${PORT_KIBANA}:${PORT_KIBANA}
     links:
       - elasticsearch
+    restart: always
     networks:
       backend:
         ipv4_address: ${IPV4_KIBANA}
@@ -52,6 +54,7 @@ services:
      - ./.env
     depends_on: 
       - elasticsearch
+    restart: always
     networks:
       backend:
         ipv4_address: ${IPV4_GRAFANA}
