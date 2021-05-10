@@ -1,0 +1,15 @@
+[Unit]
+Description=Runs minikube on startup
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/ubuntu/mqtt_docker_test/install/startupMinikube.sh
+ExecStop=/usr/local/bin/minikube stop
+User=ubuntu
+Group=ubuntu
+
+[Install]
+WantedBy=multi-user.target

@@ -2,7 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.158.0/containers/python-3
 // https://code.visualstudio.com/docs/remote/devcontainerjson-reference
 {
-	"name": "Python 3",
+	"name": "SolarDevConMinikube",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
@@ -61,21 +61,14 @@
 		"njpwerner.autodocstring"
 	],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	// "initializeCommand": [".devcontainer/init"],
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	//"postCreateCommand": "pip3 install --user -r docker/requirements.txt && cp /workspaces/Elastic/SSH/key1 ~/.ssh/key1",
 	"postCreateCommand": ".devcontainer/devcon.sh",
-	
-
-	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode",
 
 	// add to existing network
 	"runArgs": [
-		"--network=solar_test_backend",
-		"--ip=${localEnv:IPV4_DEVCONTAINER}",
+		// "--network=solar_test_backend",
+		// "--ip=${localEnv:IPV4_DEVCONTAINER}",
 		"--name=devContainerPythonBasic",
 		"--init",
 		"--env-file",".env"
@@ -84,7 +77,13 @@
 
 	"mounts": [ 
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-		"source=projectname-bashhistory,target=/commandhistory,type=volume"
-	],	
+		"source=projectname-bashhistory,target=/commandhistory,type=volume",		
+		"source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind",
+		"source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind"
+	],
+	
+	"remoteEnv": {
+		"SYNC_LOCALHOST_KUBECONFIG": "true"
+	  },
 	
 }

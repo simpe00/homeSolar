@@ -52,8 +52,8 @@ services:
       - ${PORT_GRAFANA}:${PORT_GRAFANA}
     env_file:
      - ./.env
-    depends_on: 
-      - elasticsearch
+    # depends_on: 
+    #   - elasticsearch
     restart: always
     networks:
       backend:
@@ -75,8 +75,8 @@ services:
      "${IPV4_PYTHON_SERVER}:${PORT_DEV_REMOTE_DEBUG}", "./main.py"]
     stdin_open: true
     tty: true
-    depends_on: 
-      - elasticsearch
+    # depends_on: 
+    #   - elasticsearch
     restart: always
     networks:
       backend:
@@ -92,11 +92,11 @@ services:
       - ./.env
     ports:
       - ${PORT_LOGSTASH}:${PORT_LOGSTASH}
-    depends_on: 
-      - elasticsearch
-      - kibana
-      - grafana
-      - pyserver
+    # depends_on: 
+    #   - elasticsearch
+    #   - kibana
+    #   - grafana
+    #   - pyserver
     networks:
       backend:
         ipv4_address: ${IPV4_LOGSTASH}

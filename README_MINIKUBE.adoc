@@ -1,0 +1,331 @@
+:toc: left 
+:icons: font
+:experimental:
+:source-highlighter: pygments
+:pygments-style: emacs
+
+
+
+
+
+= Minikube on - Raspberry Pi
+
+
+
+== Goal of the project
+
+This is a proiect to setup a example for working with the following technologies:
+
+* Raspberry Pi 4
+* Minikube
+* Visual Studio Code
+* development Container
+* buildx for diffrent Platforms
+
+
+The goal is to show how to easylie work with this technologies.
+
+== initial work of this project
+
+Before working with this project it is needed to setup the working environment. In this Case it is mainly VSC and docker. If you have allready installed this you can skip this tutorial
+
+=== setup docker on your machine
+
+* https://docs.docker.com/docker-for-windows/install-windows-home/[docker on Windows]
+
+=== setup Visual Studio Code on your machine
+
+* https://code.visualstudio.com/download[VSC] with https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers[Remote-Containers]
+
+
+=== start development Container
+
+Now you are ready to start the development container. The goal is to have an well defined IDE-setup. Inside the development container you can work without fearing to destroy something. If you "destroyed" something, just rebuild the development container and everything is clean.
+
+==== start the decContainer
+
+.load development Container in VSC
+. kbd:[Ctrl+Shift+P] or kbd:[F1]
+. type in : ``Remote-Containers: Reopen in Container``
+
+[IMPORTANT]
+The Extension https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers[Remote-Containers] is needed
+
+=== install and setup Raspberry Pi
+
+For this project a Raspberry Pi is used. If you have an RPi with Ubuntu 64 bit you can skip this.
+
+. setup an RPi with a Ubuntu image (Server Version 21.04 or higher - 64 bit) with https://www.raspberrypi.org/software/[Raspberry Pi Iamger]
+
+. establish an ssh connection to your Pi. e.g. following:
++
+
+.https://www.ssh.com/ssh/keygen/[Copying the Public Key to the Server]
+[source, bash]
+----
+ssh-copy-id -i ~/.ssh/id_rsa.pub user@host # <1>
+ssh-copy-id -i ./SSH/id_rsa.pub ubuntu@192.168.178.7 # <2>
+----
+<1> general
+<2> this project
+
++
+. sync the project to your pi
++
+
+.copy project to remote machine / update project files
+[source, bash]
+----
+rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.7:/home/ubuntu/solarMinikube --delete --exclude "SSH" 
+----
+
++
+. setup docker with script if needed
++
+
+[source, bash]
+----
+cd /home/ubuntu/mqtt_docker_test/
+./install/setupDocker.sh
+----
++
+. setup minikube with script if needed
++
+
+[source, bash]
+----
+cd /home/ubuntu/mqtt_docker_test/
+./install/setupMiniKube.sh
+----
+
+Now everything is setup and you can work with this project.
+
+== working with the project
+
+Now the initial part is done. The following topics will help you to work with this project.
+
+=== using kubectl on RPi and inside devContainer
+
+One of the main tools to work with minikube is to work with ``kubectl``. You can use it on the RPi. Another method is to connect the devContainer to the RPi and use ``kubectl`` from the devContainer bash.
+
+.connecting to minikube from devContainer bash
+[source, bash]
+----
+./install/loadConfigToContainer.sh
+----
+
+if everything is fine the output should look like:
+----
+config              100%  828   395.8KB/s   00:00    
+ca.crt              100% 1111   522.0KB/s   00:00    
+client.crt          100% 1147   681.0KB/s   00:00    
+client.key          100% 1679   865.9KB/s   00:00
+----
+
+.you can try with e.g.
+[source, bash]
+----
+kubectl get svc
+----
+
+
+=== starting dashboard
+
+One of the benefits of minikube is an easy to use dashboard. To see if everything worked fine, try the dashboard. In this project, the dashboard is allready initialized by ``startupMinikube.sh`` script, but it is also possible to start it seperately. 
+
+.init dashboard if necessary - on RPi
+[source, bash]
+----
+minikube dashboard
+----
+
+after URL is shown you can end it with kbd:[Ctrl+C]
+
+.enable the dashboard proxy to view the dashboard remotely
+[source, bash]
+----
+kubectl proxy --address='0.0.0.0' --disable-filter=true
+----
+
+Now you can enter the dashboard via the URL ``http://192.168.178.7:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy`` when the command was entered on the host / RPi. If the command was entered into the devContainer bash, edit the hostname / IP to ``localhost`` so the URL is ``http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy``
+
+[NOTE]
+the port musst be open. Check if ``8001`` ist open. If not, open it via the Firewall rule. e.g. ``sudo ufw allow 8001`` on ubuntu.
+
+
+
+=== buildx - build tool for multiple platforms
+
+Buildx is a CLI for building containers for diffrent platform. 
+
+E.g. Ubuntu 64 bit is diffrent to Raspi OS 32 bit. This may requirers container with diffrent ``platforms`` for installing or running software. To do this, follow this guide. If you want further information about how this work, you can have a look at https://docs.docker.com/buildx/working-with-buildx/[docker buildx]
+
+.add the ``experimental feature`` to the ``daemon.json``
+[source, bash]
+----
+sudo nano /etc/docker/daemon.json
+----
+
+.daemon.json
+[source, daemon.json]
+----
+{ 
+    "experimental": true 
+} 
+----
+
+.restart docker
+[source, bash]
+----
+sudo service docker restart
+----
+
+.install buildx
+[source, bash]
+----
+cd ~/opc_docker/
+./install/setupBuildx.sh
+----
+
+Now you can use the ``--platform`` for docker and also for docker-compose.
+
+=== build local docker images
+
+Before it is possible to deploy a service on minikube it is needed to build the containers, because that is not done by ``kubectl``.
+
+.build the docker images on the RPi
+[source, bash]
+----
+docker-compose -f docker-compose.yml -f docker-compose.armhf.yml build
+----
+
+
+=== generate minikube manifest
+
+For deploying container via ``kubectl`` on minikube it is needed to have a manifest. In this project we will use yaml generated from a ``docker-compose.yml`` file.
+
+For creating a manifest from ``docker-compose.yml`` you need ``kompose``. Its possible to generate the file inside the development container. The benefit for creating it on the RPi is that you can use the ``hosthPath`` parameter. This is needed when you want to bind mount a Volume into a container from the host (RPi).
+
+
+.generate kubernetes manifest from docker-compose on the Raspberry
+[source, bash]
+----
+docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml -f ./docker-compose.arm.yml -f ./docker-compose.prod.yml config > docker-compose-resolved.yaml && kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+----
+
+If you have created the minikube.yaml on the RPi it is needed to sync the file to your devContainer.
+
+.sync the minikube.yaml from RPi to devContainer - devContainer bash
+[source, bash]
+----
+rsync ubuntu@192.168.178.7:/home/ubuntu/solarMinikube/minikube.yaml /workspaces/HomeAssiWithSolar/minikube.yaml
+----
+
+Now you have the ``minikube.yaml`` file on your machine and can add things that are needed. In this example you have to add the following line. This is needed to use local https://kubernetes.io/docs/concepts/containers/images/[images]
+
+[source, minikube.yaml]
+----
+        spec:
+          containers:
+            - image: ubuntutest 
+              name: ubu1
+              resources: {}
+              imagePullPolicy: IfNotPresent // <1>
+          restartPolicy: Always
+----
+<1> added line
+
+In any case, sync the project to your RPi so you can deploy the manifest.
+
+.copy project to remote machine / update project files
+[source, bash]
+----
+rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.7:/home/ubuntu/solarMinikube --delete --exclude "SSH" 
+----
+
+=== deploying on minikube
+
+Now you are ready to deploy the manifest and <<using kubectl on RPi and inside devContainer>> to deploy.
+
+.deyploy service to minikube
+[source, bash]
+----
+kubectl apply -f minikube.yaml
+----
+
+.output
+[source]
+----
+deployment.apps/ubuntutest created
+----
+
+you can check if everythin worked fine via the ``dashboard`` or by running ``kubectl get pods``
+
+.output
+[source]
+----
+NAME                         READY   STATUS    RESTARTS   AGE
+mosquitto-5d898cb794-b4f9h   1/1     Running   1          3d6h
+ubuntutest-b7f5dc7c-k2xbg    1/1     Running   0          32s
+----
+
+
+== links
+
+https://www.docker.com/blog/getting-started-with-docker-for-arm-on-linux/[Getting started with Docker for Arm on Linux]
+
+https://aquarat.co.za/tag/raspberry-pi/
+
+https://www.chevdor.com/post/2021/02/docker_to_k8s/[minikube tutorial - total]
+
+https://github.com/kubernetes-sigs/metrics-server/issues/614[how to start metrics-server]
+
+https://stackoverflow.com/questions/44519980/assign-external-ip-to-a-kubernetes-service[add endpoint to service]
+
+
+
+== miscellaneous
+
+=== bash inside a container / pod
+
+How to open a bash inside a container / pod via kubectl.
+
+.get information about the pods
+[source, bash]
+----
+kubectl get pods
+----
+.output
+----
+NAME                         READY   STATUS    RESTARTS   AGE
+mosquitto-5d898cb794-b4f9h   1/1     Running   4          25h
+ubuntutest-b7f5dc7c-m2b79    1/1     Running   0          3h16m
+----
+
+where ``ubuntutest-b7f5dc7c-m2b79`` is e.g. the pod to enter in 
+
+.enter the bash
+[source, bash]
+----
+kubectl exec -it ubuntutest-b7f5dc7c-m2b79 -- /bin/bash
+----
+
+
+=== minikube addons enable metrics-server
+
+.https://github.com/kubernetes-sigs/metrics-server/issues/614[how to start metrics-server]
+[source, bash]
+----
+minikube addons disable metrics-server # <1>
+minikube addons enable metrics-server # <2>
+
+kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml # <1> <3>
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml # <2> <3>
+----
+<1> disable metrics-server
+<2> enable metrics-server
+<3> preferred method
+
+== todo
+
+add whats next to do
