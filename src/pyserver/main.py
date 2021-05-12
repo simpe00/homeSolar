@@ -77,7 +77,7 @@ class Modbus2Elastic:
         self.dict_all_const_num = 3
 
         self.__es = Elasticsearch([{
-            'host': os.getenv('IPV4_ELASTICSEARCH'),
+            'host': 'elasticsearch',
             'port': int(os.getenv('PORT_ELASTIC_1'))
             }])
 
@@ -136,12 +136,6 @@ class Modbus2Elastic:
                     err_no = self.__get_register_data(modbus_client, i_dict)
                     if err_no != -1:
                         self.__int_2_float_by_sf(i_dict)
-
-                        # if list_count == 1:
-                        #     self.m_ac_power_ = i_dict['M_AC_Power']['value']
-
-                        # if list_count == 2:
-                        #     self.i_ac_power_ = i_dict['I_AC_Power']['value']
 
                 list_count = list_count + 1
 

@@ -55,8 +55,8 @@ sudo ufw allow 443 # https
 sudo ufw allow 10250 # metrics-server
 yes | sudo ufw enable
 
-sudo ufw allow 1883 # mqtt
-sudo ufw allow 9001 # mqtt
+sudo ufw allow 5678 # debugpy
+sudo ufw allow 3000 # grafana
 
 # add startup Minikube
 INSTALL_FOLDER="$(dirname $(readlink -f $0))"

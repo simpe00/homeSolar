@@ -17,16 +17,14 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - dataSolar01:/usr/share/elasticsearch/data
+      - datasolar01:/usr/share/elasticsearch/data
     cap_add:
       - IPC_LOCK
     ports:
       - ${PORT_ELASTIC_1}:${PORT_ELASTIC_1}
-      - ${PORT_ELASTIC_2}:${PORT_ELASTIC_2}
     restart: always
     networks:
       backend:
-        ipv4_address: ${IPV4_ELASTICSEARCH} 
 
   kibana:
     container_name: kibana
@@ -40,7 +38,6 @@ services:
     restart: always
     networks:
       backend:
-        ipv4_address: ${IPV4_KIBANA}
 
   grafana:
     container_name: grafana
@@ -50,37 +47,29 @@ services:
       dockerfile: ./docker/Dockerfile.grafana
     ports:
       - ${PORT_GRAFANA}:${PORT_GRAFANA}
-    env_file:
-     - ./.env
-    # depends_on: 
-    #   - elasticsearch
+    environment:
+      - PORT_ELASTIC_1=${PORT_ELASTIC_1}
     restart: always
     networks:
       backend:
-        ipv4_address: ${IPV4_GRAFANA}
 
   pyserver:
     container_name: pyserver
     image: pyserver
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.pyserver
-    env_file:
-     - ./.env    
+      dockerfile: ./docker/Dockerfile.pyserver  
     environment:
-      - IPV4_ADDR=${IPV4_PYTHON_SERVER}
+      - PORT_ELASTIC_1=${PORT_ELASTIC_1}
     ports:
       - ${PORT_DEV_REMOTE_DEBUG}:${PORT_DEV_REMOTE_DEBUG}
     entrypoint: [ "python3", "-m", "debugpy", "--listen",
-     "${IPV4_PYTHON_SERVER}:${PORT_DEV_REMOTE_DEBUG}", "./main.py"]
+     "0.0.0.0:${PORT_DEV_REMOTE_DEBUG}", "./main.py"]
     stdin_open: true
     tty: true
-    # depends_on: 
-    #   - elasticsearch
     restart: always
     networks:
       backend:
-        ipv4_address: ${IPV4_PYTHON_SERVER}
 
   logstash:
     container_name: logstash
@@ -88,21 +77,15 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile.logstash
-    env_file:
-      - ./.env
+    environment:
+      - PORT_ELASTIC_1=${PORT_ELASTIC_1}
     ports:
       - ${PORT_LOGSTASH}:${PORT_LOGSTASH}
-    # depends_on: 
-    #   - elasticsearch
-    #   - kibana
-    #   - grafana
-    #   - pyserver
     networks:
       backend:
-        ipv4_address: ${IPV4_LOGSTASH}
 
 volumes:
-  dataSolar01:
+  datasolar01:
     driver: local
     driver_opts:
       o: bind
@@ -111,6 +94,3 @@ volumes:
 
 networks:
   backend:
-    ipam:
-      config:
-        - subnet: ${IPV4_SUBNET}

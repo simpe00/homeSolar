@@ -6,7 +6,7 @@ datasources:
     type: elasticsearch
     access: proxy
     database: "solar"
-    url: http://${IPV4_ELASTICSEARCH}:${PORT_ELASTIC_1}
+    url: http://elasticsearch:${PORT_ELASTIC_1}
     jsonData:
       timeField: "@timestamp"
       esVersion: 70
@@ -15,7 +15,7 @@ datasources:
     type: elasticsearch
     access: proxy
     database: "dockerlogs"
-    url: http://${IPV4_ELASTICSEARCH}:${PORT_ELASTIC_1}
+    url: http://elasticsearch:${PORT_ELASTIC_1}
     jsonData:
       timeField: "time"
       esVersion: 70

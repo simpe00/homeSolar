@@ -5,27 +5,20 @@ services:
     container_name: pyserver
     ports:
       - ${PORT_DEV_REMOTE_DEBUG}:${PORT_DEV_REMOTE_DEBUG}
-    environment:
-      - IPV4_ADDR=${IPV4_PROD_PYTHON_SERVER}
-    entrypoint: [ "python3", "-m", "debugpy", "--listen",
-     "${IPV4_PROD_PYTHON_SERVER}:${PORT_DEV_REMOTE_DEBUG}", "./main.py"]
     networks:
       frontend:
-        ipv4_address: ${IPV4_PROD_PYTHON_SERVER}
 
   grafana:
     ports:
       - ${PORT_GRAFANA}:${PORT_GRAFANA}
     networks:
       frontend:
-        ipv4_address: ${IPV4_PROD_GRAFANA}
 
   kibana:
     ports:
       - ${PORT_KIBANA}:${PORT_KIBANA}
     networks:
       frontend:
-        ipv4_address: ${IPV4_PROD_KIBANA}
 
   logstash:
     volumes:
@@ -33,10 +26,3 @@ services:
 
 networks:
   frontend:
-    driver: macvlan
-    driver_opts: 
-      parent: eth0
-    ipam: 
-      driver: default
-      config: 
-        - subnet: ${IPV4_PROD_SUBNET}

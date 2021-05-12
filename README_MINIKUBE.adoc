@@ -196,7 +196,7 @@ Before it is possible to deploy a service on minikube it is needed to build the 
 .build the docker images on the RPi
 [source, bash]
 ----
-docker-compose -f docker-compose.yml -f docker-compose.armhf.yml build
+docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml -f ./docker-compose.arm.yml -f ./docker-compose.prod.yml build
 ----
 
 
@@ -329,3 +329,13 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 == todo
 
 add whats next to do
+
+kubectl patch -n default svc pyserver -p '{"spec":{"externalIPs":["192.168.178.7"]}}'
+
+https://github.com/microsoft/debugpy
+
+-m debugpy --listen 0.0.0.0:5678 myfile.py
+
+https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/
+
+kubectl patch -n default svc pyserver -p '{"spec":{"containers":{"env":[{"name":"IPV4_ELASTICSEARCH","value":"172.20.0.3"}]}}}'

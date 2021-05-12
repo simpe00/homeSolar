@@ -58,7 +58,8 @@
 		"ms-toolsai.jupyter",
 		"eamodio.gitlens",
 		"42crunch.vscode-openapi",
-		"njpwerner.autodocstring"
+		"njpwerner.autodocstring",
+		"ms-kubernetes-tools.vscode-kubernetes-tools"
 	],
 
 	// "initializeCommand": [".devcontainer/init"],

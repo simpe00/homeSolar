@@ -4,7 +4,7 @@ items:
     kind: Service
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -15,9 +15,6 @@ items:
         - name: "9200"
           port: 9200
           targetPort: 9200
-        - name: "9300"
-          port: 9300
-          targetPort: 9300
       selector:
         io.kompose.service: elasticsearch
     status:
@@ -26,14 +23,13 @@ items:
     kind: Service
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
         io.kompose.service: grafana
       name: grafana
     spec:
-      externalIPs: [192.168.178.7]
       ports:
         - name: "3000"
           port: 3000
@@ -46,7 +42,7 @@ items:
     kind: Service
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -65,7 +61,7 @@ items:
     kind: Service
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -84,14 +80,13 @@ items:
     kind: Service
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
         io.kompose.service: pyserver
       name: pyserver
     spec:
-      externalIPs: [192.168.178.7]
       ports:
         - name: "5678"
           port: 5678
@@ -104,7 +99,7 @@ items:
     kind: Deployment
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -120,7 +115,7 @@ items:
       template:
         metadata:
           annotations:
-            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
             kompose.version: 1.22.0 (955b78124)
           creationTimestamp: null
           labels:
@@ -141,9 +136,7 @@ items:
               name: elasticsearch
               ports:
                 - containerPort: 9200
-                - containerPort: 9300
               resources: {}
-              imagePullPolicy: IfNotPresent
               securityContext:
                 capabilities:
                   add:
@@ -154,7 +147,7 @@ items:
           restartPolicy: Always
           volumes:
             - hostPath:
-                path: /mnt/usb1/storagehome/
+                path: /workspaces/HomeAssiWithSolar
               name: datasolar01
     status: {}
   - apiVersion: networking.k8s.io/v1
@@ -175,7 +168,7 @@ items:
     kind: Deployment
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -191,7 +184,7 @@ items:
       template:
         metadata:
           annotations:
-            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
             kompose.version: 1.22.0 (955b78124)
           creationTimestamp: null
           labels:
@@ -208,7 +201,6 @@ items:
               ports:
                 - containerPort: 3000
               resources: {}
-              imagePullPolicy: IfNotPresent
               volumeMounts:
                 - mountPath: /etc/dashboards
                   name: grafana-hostpath0
@@ -219,13 +211,13 @@ items:
           restartPolicy: Always
           volumes:
             - hostPath:
-                path: /home/ubuntu/solarMinikube/docker/dashboards/json
+                path: /workspaces/HomeAssiWithSolar/docker/dashboards/json
               name: grafana-hostpath0
             - hostPath:
-                path: /home/ubuntu/solarMinikube/docker/dashboards
+                path: /workspaces/HomeAssiWithSolar/docker/dashboards
               name: grafana-hostpath1
             - hostPath:
-                path: /home/ubuntu/solarMinikube/docker/datasources
+                path: /workspaces/HomeAssiWithSolar/docker/datasources
               name: grafana-hostpath2
     status: {}
   - apiVersion: networking.k8s.io/v1
@@ -246,7 +238,7 @@ items:
     kind: Deployment
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -261,7 +253,7 @@ items:
       template:
         metadata:
           annotations:
-            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
             kompose.version: 1.22.0 (955b78124)
           creationTimestamp: null
           labels:
@@ -278,14 +270,13 @@ items:
               ports:
                 - containerPort: 5601
               resources: {}
-              imagePullPolicy: IfNotPresent
           restartPolicy: Always
     status: {}
   - apiVersion: apps/v1
     kind: Deployment
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -301,7 +292,7 @@ items:
       template:
         metadata:
           annotations:
-            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
             kompose.version: 1.22.0 (955b78124)
           creationTimestamp: null
           labels:
@@ -317,7 +308,6 @@ items:
               ports:
                 - containerPort: 5044
               resources: {}
-              imagePullPolicy: IfNotPresent
               volumeMounts:
                 - mountPath: /var/lib/docker
                   name: logstash-hostpath0
@@ -332,7 +322,7 @@ items:
     kind: Deployment
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
@@ -348,7 +338,7 @@ items:
       template:
         metadata:
           annotations:
-            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+            kompose.cmd: kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube1.yaml
             kompose.version: 1.22.0 (955b78124)
           creationTimestamp: null
           labels:
@@ -362,7 +352,7 @@ items:
                 - -m
                 - debugpy
                 - --listen
-                - 0.0.0.0:5678 
+                - 0.0.0.0:5678
                 - ./main.py
               env:
                 - name: PORT_ELASTIC_1
@@ -372,7 +362,6 @@ items:
               ports:
                 - containerPort: 5678
               resources: {}
-              imagePullPolicy: IfNotPresent
               stdin: true
               tty: true
               volumeMounts:
@@ -381,7 +370,7 @@ items:
           restartPolicy: Always
           volumes:
             - hostPath:
-                path: /home/ubuntu/solarMinikube/src/pyserver
+                path: /workspaces/HomeAssiWithSolar/src/pyserver
               name: pyserver-hostpath0
     status: {}
 kind: List
