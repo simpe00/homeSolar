@@ -15,9 +15,6 @@ items:
         - name: "9200"
           port: 9200
           targetPort: 9200
-        - name: "9300"
-          port: 9300
-          targetPort: 9300
       selector:
         io.kompose.service: elasticsearch
     status:
@@ -141,7 +138,6 @@ items:
               name: elasticsearch
               ports:
                 - containerPort: 9200
-                - containerPort: 9300
               resources: {}
               imagePullPolicy: IfNotPresent
               securityContext:
@@ -362,7 +358,7 @@ items:
                 - -m
                 - debugpy
                 - --listen
-                - 0.0.0.0:5678 
+                - 0.0.0.0:5678
                 - ./main.py
               env:
                 - name: PORT_ELASTIC_1
