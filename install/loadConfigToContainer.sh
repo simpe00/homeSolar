@@ -1,5 +1,5 @@
 #!/bin/bash
-HOST="192.168.178.7"
+HOST="192.168.178.3"
 # print_usage() {
 #   printf "Usage: ...\n"
 # }

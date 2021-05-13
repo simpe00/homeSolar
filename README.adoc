@@ -94,7 +94,7 @@ adding the follow line in the file (with your UUID)
 +
 [source, bash]
 ----
-UUID="f8f8ba1c-7dfd-45ff-b8dc-730b576f4344" /mnt/usb ext4 defaults,auto,users,rw,nofail 0 0
+UUID="f8f8ba1c-7dfd-45ff-b8dc-730b576f4344" /mnt/usb1 ext4 defaults,auto,rw,nofail,exec 0 0
 ----
 +
 . read fstab with

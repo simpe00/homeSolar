@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/home/ubuntu/mqtt_docker_test/install/startupMinikube.sh
+ExecStart=/etc/systemd/system/startupMinikube.sh
 ExecStop=/usr/local/bin/minikube stop
 User=ubuntu
 Group=ubuntu

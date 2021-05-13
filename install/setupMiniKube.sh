@@ -57,12 +57,15 @@ yes | sudo ufw enable
 
 sudo ufw allow 5678 # debugpy
 sudo ufw allow 3000 # grafana
+sudo ufw allow 5601 # kibana
 
 # add startup Minikube
 INSTALL_FOLDER="$(dirname $(readlink -f $0))"
 sudo cp "$INSTALL_FOLDER/minikube.service" /etc/systemd/system/minikube.service
+sudo cp "$INSTALL_FOLDER/startupMinikube.sh" /etc/systemd/system/startupMinikube.sh
 # sudo chmod +x /etc/systemd/system/minikube.service
-chmod +x "$INSTALL_FOLDER/startupMinikube.sh" 
+# chmod +x "$INSTALL_FOLDER/startupMinikube.sh"
+sudo chmod +x /etc/systemd/system/startupMinikube.sh
 sudo systemctl enable minikube.service
 sudo systemctl daemon-reload
 echo "starting minikube service ..."

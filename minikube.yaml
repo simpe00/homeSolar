@@ -36,7 +36,7 @@ items:
         io.kompose.service: grafana
       name: grafana
     spec:
-      externalIPs: [192.168.178.7]
+      externalIPs: [192.168.178.3]
       ports:
         - name: "3000"
           port: 3000
@@ -57,6 +57,7 @@ items:
         io.kompose.service: kibana
       name: kibana
     spec:
+      externalIPs: [192.168.178.3]
       ports:
         - name: "5601"
           port: 5601
@@ -97,7 +98,7 @@ items:
         io.kompose.service: pyserver
       name: pyserver
     spec:
-      externalIPs: [192.168.178.7]
+      externalIPs: [192.168.178.3]
       ports:
         - name: "5678"
           port: 5678
@@ -229,13 +230,13 @@ items:
           restartPolicy: Always
           volumes:
             - hostPath:
-                path: /home/ubuntu/solarMinikube/docker/dashboards/json
+                path: /mnt/usb1/solarMinikube/docker/dashboards/json
               name: grafana-hostpath0
             - hostPath:
-                path: /home/ubuntu/solarMinikube/docker/dashboards
+                path: /mnt/usb1/solarMinikube/docker/dashboards
               name: grafana-hostpath1
             - hostPath:
-                path: /home/ubuntu/solarMinikube/docker/datasources
+                path: /mnt/usb1/solarMinikube/docker/datasources
               name: grafana-hostpath2
     status: {}
   - apiVersion: networking.k8s.io/v1
@@ -398,7 +399,7 @@ items:
           restartPolicy: Always
           volumes:
             - hostPath:
-                path: /home/ubuntu/solarMinikube/src/pyserver
+                path: /mnt/usb1/solarMinikube/src/pyserver
               name: pyserver-hostpath0
     status: {}
 kind: List

@@ -64,7 +64,7 @@ For this project a Raspberry Pi is used. If you have an RPi with Ubuntu 64 bit y
 [source, bash]
 ----
 ssh-copy-id -i ~/.ssh/id_rsa.pub user@host # <1>
-ssh-copy-id -i ./SSH/id_rsa.pub ubuntu@192.168.178.7 # <2>
+ssh-copy-id -i ./SSH/id_rsa.pub ubuntu@192.168.178.3 # <2>
 ----
 <1> general
 <2> this project
@@ -76,7 +76,7 @@ ssh-copy-id -i ./SSH/id_rsa.pub ubuntu@192.168.178.7 # <2>
 .copy project to remote machine / update project files
 [source, bash]
 ----
-rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.7:/home/ubuntu/solarMinikube --delete --exclude "SSH" 
+rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.3:/mnt/usb1/solarMinikube --delete --exclude "SSH" 
 ----
 
 +
@@ -85,7 +85,7 @@ rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.7:/home/ubuntu/solarM
 
 [source, bash]
 ----
-cd /home/ubuntu/mqtt_docker_test/
+cd /mnt/usb1/solarMinikube/
 ./install/setupDocker.sh
 ----
 +
@@ -94,7 +94,7 @@ cd /home/ubuntu/mqtt_docker_test/
 
 [source, bash]
 ----
-cd /home/ubuntu/mqtt_docker_test/
+cd /mnt/usb1/solarMinikube/
 ./install/setupMiniKube.sh
 ----
 
@@ -147,7 +147,7 @@ after URL is shown you can end it with kbd:[Ctrl+C]
 kubectl proxy --address='0.0.0.0' --disable-filter=true
 ----
 
-Now you can enter the dashboard via the URL ``http://192.168.178.7:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy`` when the command was entered on the host / RPi. If the command was entered into the devContainer bash, edit the hostname / IP to ``localhost`` so the URL is ``http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy``
+Now you can enter the dashboard via the URL ``http://192.168.178.3:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy`` when the command was entered on the host / RPi. If the command was entered into the devContainer bash, edit the hostname / IP to ``localhost`` so the URL is ``http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy``
 
 [NOTE]
 the port musst be open. Check if ``8001`` ist open. If not, open it via the Firewall rule. e.g. ``sudo ufw allow 8001`` on ubuntu.
@@ -218,7 +218,7 @@ If you have created the minikube.yaml on the RPi it is needed to sync the file t
 .sync the minikube.yaml from RPi to devContainer - devContainer bash
 [source, bash]
 ----
-rsync ubuntu@192.168.178.7:/home/ubuntu/solarMinikube/minikube.yaml /workspaces/HomeAssiWithSolar/minikube.yaml
+rsync ubuntu@192.168.178.3:/mnt/usb1/solarMinikube/minikube.yaml /workspaces/HomeAssiWithSolar/minikube.yaml
 ----
 
 Now you have the ``minikube.yaml`` file on your machine and can add things that are needed. In this example you have to add the following line. This is needed to use local https://kubernetes.io/docs/concepts/containers/images/[images]
@@ -240,7 +240,7 @@ In any case, sync the project to your RPi so you can deploy the manifest.
 .copy project to remote machine / update project files
 [source, bash]
 ----
-rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.7:/home/ubuntu/solarMinikube --delete --exclude "SSH" 
+rsync -r /workspaces/HomeAssiWithSolar/ ubuntu@192.168.178.3:/mnt/usb1/solarMinikube --delete --exclude "SSH" 
 ----
 
 === deploying on minikube
@@ -330,7 +330,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 
 add whats next to do
 
-kubectl patch -n default svc pyserver -p '{"spec":{"externalIPs":["192.168.178.7"]}}'
+kubectl patch -n default svc pyserver -p '{"spec":{"externalIPs":["192.168.178.3"]}}'
 
 https://github.com/microsoft/debugpy
 
@@ -339,3 +339,5 @@ https://github.com/microsoft/debugpy
 https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/
 
 kubectl patch -n default svc pyserver -p '{"spec":{"containers":{"env":[{"name":"IPV4_ELASTICSEARCH","value":"172.20.0.3"}]}}}'
+
+ change name in ``minikube.service`` to the file
