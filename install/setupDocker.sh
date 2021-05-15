@@ -22,8 +22,9 @@ sudo service docker restart
 # move docker from source to target folder
 sudo service docker stop
 
-DOCKER_FOLDER_TARGET="/mnt/usb1/docker"
+DOCKER_FOLDER_TARGET="/mnt/usb1/docker/"
 DOCKER_FOLDER_SOURCE="/var/lib/docker/"
+DOCKER_SYMLINK="/var/lib/"
 DAEMON_FILE="/etc/docker/daemon.json"
 DAEMON_TEMP_FILE="/etc/docker/daemon_temp.json"
 
@@ -35,6 +36,8 @@ else
 fi
 sudo rsync -aP ${DOCKER_FOLDER_SOURCE} ${DOCKER_FOLDER_TARGET}
 sudo rm -r ${DOCKER_FOLDER_SOURCE}
+sudo mkdir ${DOCKER_FOLDER_SOURCE}
+sudo ln -s ${DOCKER_FOLDER_TARGET} ${DOCKER_SYMLINK}
 
 sudo service docker start 
 
