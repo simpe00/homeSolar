@@ -147,3 +147,5 @@ https://github.com/nmakel/solaredge_modbus[SolarEdge Modbus on GitHub with influ
 
 https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket[add group]
 
+https://www.guguweb.com/2019/02/07/how-to-move-docker-data-directory-to-another-location-on-ubuntu/[change docker dir]
+

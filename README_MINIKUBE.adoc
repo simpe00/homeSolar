@@ -330,14 +330,9 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 
 add whats next to do
 
-kubectl patch -n default svc pyserver -p '{"spec":{"externalIPs":["192.168.178.3"]}}'
-
-https://github.com/microsoft/debugpy
-
--m debugpy --listen 0.0.0.0:5678 myfile.py
-
 https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/
 
-kubectl patch -n default svc pyserver -p '{"spec":{"containers":{"env":[{"name":"IPV4_ELASTICSEARCH","value":"172.20.0.3"}]}}}'
 
  change name in ``minikube.service`` to the file
+
+https://gist.github.com/joar/776b7d176196592ed5d8
