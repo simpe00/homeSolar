@@ -27,9 +27,9 @@ The goal is to show how to easylie work with this technologies.
 
 == initial work of this project
 
-Before working with this project it is needed to setup the working environment. In this Case it is mainly VSC and docker. If you have allready installed this you can skip this tutorial
+Before working with this project it is needed to setup the working environment. In this Case it is mainly VSC and docker. If you have allready installed this you can skip this tutorial.
 
-=== setup docker on your machine
+=== setup docker on your machine (windows)
 
 * https://docs.docker.com/docker-for-windows/install-windows-home/[docker on Windows]
 

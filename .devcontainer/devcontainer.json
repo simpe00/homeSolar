@@ -70,7 +70,7 @@
 	"runArgs": [
 		// "--network=solar_test_backend",
 		// "--ip=${localEnv:IPV4_DEVCONTAINER}",
-		"--name=devContainerPythonBasic",
+		"--name=devContainerSolarMinikube",
 		"--init",
 		"--env-file",".env"
 	],
