@@ -59,7 +59,8 @@
 		"eamodio.gitlens",
 		"42crunch.vscode-openapi",
 		"njpwerner.autodocstring",
-		"ms-kubernetes-tools.vscode-kubernetes-tools"
+		"ms-kubernetes-tools.vscode-kubernetes-tools",
+		"fabiospampinato.vscode-diff"
 	],
 
 	// "initializeCommand": [".devcontainer/init"],

@@ -23,8 +23,6 @@ services:
     ports:
       - ${PORT_ELASTIC_1}:${PORT_ELASTIC_1}
     restart: always
-    networks:
-      backend:
 
   kibana:
     container_name: kibana
@@ -36,12 +34,10 @@ services:
     links:
       - elasticsearch
     restart: always
-    networks:
-      backend:
 
   grafana:
     container_name: grafana
-    image: grafana
+    image: grafana-arm:${GRAFANA_VERS}
     build:
       context: .
       dockerfile: ./docker/Dockerfile.grafana
@@ -50,12 +46,10 @@ services:
     environment:
       - PORT_ELASTIC_1=${PORT_ELASTIC_1}
     restart: always
-    networks:
-      backend:
 
   pyserver:
     container_name: pyserver
-    image: pyserver
+    image: pyserver:${PYSERVER_VERS}
     build:
       context: .
       dockerfile: ./docker/Dockerfile.pyserver  
@@ -68,21 +62,6 @@ services:
     stdin_open: true
     tty: true
     restart: always
-    networks:
-      backend:
-
-  logstash:
-    container_name: logstash
-    image: logstash
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile.logstash
-    environment:
-      - PORT_ELASTIC_1=${PORT_ELASTIC_1}
-    ports:
-      - ${PORT_LOGSTASH}:${PORT_LOGSTASH}
-    networks:
-      backend:
 
 volumes:
   datasolar01:
@@ -91,6 +70,3 @@ volumes:
       o: bind
       type: volume
       device: /mnt/usb1/storagehome/
-
-networks:
-  backend:

@@ -210,7 +210,7 @@ For creating a manifest from ``docker-compose.yml`` you need ``kompose``. Its po
 .generate kubernetes manifest from docker-compose on the Raspberry
 [source, bash]
 ----
-docker-compose -f ./docker-compose.yml -f ./docker-compose.local.yml -f ./docker-compose.arm.yml -f ./docker-compose.prod.yml config > docker-compose-resolved.yaml && kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
+docker-compose -f ./docker-compose.yml -f ./docker-compose.arm.yml config > docker-compose-resolved.yaml && kompose convert -f docker-compose-resolved.yaml --volumes hostPath --out minikube.yaml
 ----
 
 If you have created the minikube.yaml on the RPi it is needed to sync the file to your devContainer.
@@ -336,3 +336,5 @@ https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdenied
  change name in ``minikube.service`` to the file
 
 https://gist.github.com/joar/776b7d176196592ed5d8
+
+https://mherman.org/blog/logging-in-kubernetes-with-elasticsearch-Kibana-fluentd/
