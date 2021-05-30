@@ -10,4 +10,3 @@ timeout 7s minikube dashboard
 
 # enable metrics
 minikube addons enable metrics-server
-kubectl patch -n kube-system svc metrics-server -p '{"spec":{"externalIPs":["'"${LOCAL_IPV4}"'"]}}'

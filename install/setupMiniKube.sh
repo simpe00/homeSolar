@@ -4,10 +4,9 @@ sudo sed -i '$ s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 sw
 sudo apt-get update && sudo apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update
-sudo apt-get install -y kubectl
+sudo apt update
+sudo apt install -y kubectl kubeadm kubelet
 
-sudo apt-mark hold kubectl
 
 
 MACHINE_TYPE=$(uname -m)

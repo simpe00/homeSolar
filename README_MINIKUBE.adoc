@@ -338,3 +338,9 @@ https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdenied
 https://gist.github.com/joar/776b7d176196592ed5d8
 
 https://mherman.org/blog/logging-in-kubernetes-with-elasticsearch-Kibana-fluentd/
+
+https://www.howtoforge.com/how-to-install-kubernetes-with-minikube-ubuntu-20-04/
+
+/etc/docker/daemon.json
+
+"exec-opts": ["native.cgroupdriver=systemd"],

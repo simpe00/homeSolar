@@ -57,7 +57,6 @@
 		"ms-azuretools.vscode-docker",
 		"ms-toolsai.jupyter",
 		"eamodio.gitlens",
-		"42crunch.vscode-openapi",
 		"njpwerner.autodocstring",
 		"ms-kubernetes-tools.vscode-kubernetes-tools",
 		"fabiospampinato.vscode-diff"
@@ -71,6 +70,7 @@
 	"runArgs": [
 		// "--network=solar_test_backend",
 		// "--ip=${localEnv:IPV4_DEVCONTAINER}",
+		"--network=host",
 		"--name=devContainerSolarMinikube",
 		"--init",
 		"--env-file",".env"
